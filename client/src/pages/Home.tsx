@@ -17,37 +17,37 @@ import Footer from "@/components/Footer";
 // Feature showcase data with badges
 const featureShowcases = [
   {
-    image: "/section-team-new.png",
+    image: "/section-team.webp",
     badge: { icon: Users, title: "Join Now", subtitle: "Free Forever" },
     animation: "animate-float"
   },
   {
-    image: "/feature-showcase-1.png",
+    image: "/hero-main.webp",
     badge: { icon: TrendingUp, title: "Live Stats", subtitle: "Real-Time Updates" },
     animation: "animate-pulse-slow"
   },
   {
-    image: "/feature-showcase-2.png",
+    image: "/hero-cricket.webp",
     badge: { icon: Play, title: "Play Now", subtitle: "No Downloads" },
     animation: "animate-bounce-slow"
   },
   {
-    image: "/feature-showcase-3.png",
+    image: "/section-live.webp",
     badge: { icon: Crown, title: "Top Rankings", subtitle: "Compete & Win" },
     animation: "animate-float"
   },
   {
-    image: "/feature-showcase-4.png",
+    image: "/section-contest.webp",
     badge: { icon: Trophy, title: "Champions", subtitle: "Glory Awaits" },
     animation: "animate-pulse-slow"
   },
   {
-    image: "/feature-showcase-5.png",
+    image: "/section-points.webp",
     badge: { icon: Radio, title: "Live Scores", subtitle: "Ball by Ball" },
     animation: "animate-bounce-slow"
   },
   {
-    image: "/feature-showcase-6.png",
+    image: "/hero-team.webp",
     badge: { icon: Target, title: "Team Builder", subtitle: "Build Your XI" },
     animation: "animate-float"
   }

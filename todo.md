@@ -179,3 +179,4 @@
 - [x] Fix Contest section to fetch contests from API (shows contests for upcoming matches)
 - [x] Update header to use logo only (removed text)
 - [x] Update footer to use logo only (removed text)
+- [x] Fix missing hero carousel images - use existing webp images from public folder
