@@ -117,3 +117,13 @@
 - [x] Update company name from "Fan Lite Fantasy Cricket" to "Fan Lite Play"
 - [x] Update domain from "FanLiteFantasyCricket.com" to "fanliteplay.com"
 - [x] Add company address to Contact and Footer pages
+
+## Website Redesign (User Request)
+- [x] Create new unique color scheme (teal, coral, cream, sage - no blue/red/white/black)
+- [x] Generate new hero images for homepage
+- [x] Generate section images for homepage (team building, contests, leaderboard)
+- [x] Redesign Matches page with 3-column vertical layout (Past/Present/Future)
+- [x] Implement IST timezone conversion (GMT +5:30)
+- [x] Redesign Homepage with more images per section
+- [x] Ensure images don't overlap content and vice versa
+- [ ] Push changes to GitHub and verify deployment

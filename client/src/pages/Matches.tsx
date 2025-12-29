@@ -4,54 +4,128 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Calendar, MapPin, Clock, Trophy, AlertCircle, RefreshCw } from "lucide-react";
+import { Calendar, MapPin, Clock, Trophy, AlertCircle, RefreshCw, History, Radio, CalendarClock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useMemo } from "react";
 
-function MatchCard({ match }: { match: any }) {
-  const getStatusBadge = (status: string) => {
-    if (status?.toLowerCase().includes("live")) {
-      return <Badge className="bg-emerald-500 text-white animate-pulse">LIVE</Badge>;
+// Convert GMT to IST (add 5 hours 30 minutes)
+function convertToIST(dateString: string | undefined): string {
+  if (!dateString) return "Time TBD";
+  try {
+    const date = new Date(dateString);
+    // Add 5 hours 30 minutes for IST
+    const istDate = new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
+    return istDate.toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  } catch {
+    return dateString;
+  }
+}
+
+// Get IST date for comparison
+function getISTDate(dateString: string | undefined): Date | null {
+  if (!dateString) return null;
+  try {
+    const date = new Date(dateString);
+    return new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
+  } catch {
+    return null;
+  }
+}
+
+// Categorize matches into Past, Present (Live), Future
+function categorizeMatches(matches: any[]) {
+  const now = new Date();
+  const todayStart = new Date(now);
+  todayStart.setHours(0, 0, 0, 0);
+  
+  const past: any[] = [];
+  const live: any[] = [];
+  const future: any[] = [];
+
+  matches.forEach((match) => {
+    const isLive = match.matchStarted && !match.matchEnded;
+    const isCompleted = match.matchEnded || match.status?.toLowerCase().includes("completed") || match.status?.toLowerCase().includes("result");
+    
+    if (isLive) {
+      live.push(match);
+    } else if (isCompleted) {
+      past.push(match);
+    } else {
+      future.push(match);
     }
-    if (status?.toLowerCase().includes("completed") || status?.toLowerCase().includes("result")) {
-      return <Badge variant="secondary">Completed</Badge>;
+  });
+
+  // Sort past by date descending (most recent first)
+  past.sort((a, b) => {
+    const dateA = getISTDate(a.dateTimeGMT || a.date);
+    const dateB = getISTDate(b.dateTimeGMT || b.date);
+    if (!dateA || !dateB) return 0;
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  // Sort future by date ascending (soonest first)
+  future.sort((a, b) => {
+    const dateA = getISTDate(a.dateTimeGMT || a.date);
+    const dateB = getISTDate(b.dateTimeGMT || b.date);
+    if (!dateA || !dateB) return 0;
+    return dateA.getTime() - dateB.getTime();
+  });
+
+  return { past, live, future };
+}
+
+function MatchCard({ match, type }: { match: any; type: 'past' | 'live' | 'future' }) {
+  const getBadgeClass = () => {
+    switch (type) {
+      case 'live': return 'badge-live';
+      case 'past': return 'badge-completed';
+      case 'future': return 'badge-upcoming';
     }
-    return <Badge variant="outline">Upcoming</Badge>;
   };
 
-  const isLive = match.matchStarted && !match.matchEnded;
-  const isUpcoming = !match.matchStarted;
+  const getBadgeText = () => {
+    switch (type) {
+      case 'live': return 'LIVE';
+      case 'past': return 'Completed';
+      case 'future': return 'Upcoming';
+    }
+  };
 
   return (
     <Card className="cricket-card overflow-hidden">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <Badge variant="outline" className="text-xs">
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between gap-2">
+          <Badge variant="outline" className="text-xs shrink-0">
             {match.matchType?.toUpperCase() || "MATCH"}
           </Badge>
-          {getStatusBadge(match.status)}
+          <span className={getBadgeClass()}>{getBadgeText()}</span>
         </div>
-        <CardTitle className="text-lg mt-2">{match.name || "Cricket Match"}</CardTitle>
-        <CardDescription className="flex items-center gap-2">
-          <Calendar className="h-4 w-4" />
-          {match.date || "Date TBD"}
-        </CardDescription>
+        <CardTitle className="text-base mt-2 line-clamp-2">{match.name || "Cricket Match"}</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3">
         {/* Teams */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           {match.teams?.map((team: string, index: number) => (
-            <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-primary font-bold text-sm">
+            <div key={index} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-primary font-bold text-xs">
                     {team?.substring(0, 2).toUpperCase() || "??"}
                   </span>
                 </div>
-                <span className="font-medium">{team || "Team"}</span>
+                <span className="font-medium text-sm truncate max-w-[100px]">{team || "Team"}</span>
               </div>
               {match.score?.[index] && (
-                <span className="font-bold text-lg">
+                <span className="font-bold text-sm">
                   {typeof match.score[index] === 'object' 
                     ? `${match.score[index].r || 0}/${match.score[index].w || 0} (${match.score[index].o || 0})`
                     : match.score[index]}
@@ -61,60 +135,53 @@ function MatchCard({ match }: { match: any }) {
           ))}
         </div>
 
-        {/* Match Info */}
+        {/* Date/Time in IST */}
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Clock className="h-3 w-3" />
+          <span>{convertToIST(match.dateTimeGMT || match.date)} IST</span>
+        </div>
+
+        {/* Venue */}
         {match.venue && (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4" />
-            {match.venue}
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <MapPin className="h-3 w-3" />
+            <span className="truncate">{match.venue}</span>
           </div>
         )}
 
-        {/* Status */}
-        {match.status && (
-          <p className="text-sm text-muted-foreground italic">{match.status}</p>
+        {/* Status for completed matches */}
+        {type === 'past' && match.status && (
+          <p className="text-xs text-muted-foreground italic line-clamp-2">{match.status}</p>
         )}
 
         {/* Actions */}
-        <div className="flex gap-2 pt-2">
-          <Button asChild className="flex-1">
-            <Link href={`/match/${match.id}`}>
-              {isUpcoming ? "Create Team" : "View Details"}
-            </Link>
-          </Button>
-          {isLive && (
-            <Button variant="outline" asChild>
-              <Link href={`/match/${match.id}`}>
-                <Trophy className="h-4 w-4 mr-2" />
-                Live Score
-              </Link>
-            </Button>
-          )}
-        </div>
+        <Button asChild size="sm" className="w-full mt-2" variant={type === 'live' ? 'default' : 'outline'}>
+          <Link href={`/match/${match.id}`}>
+            {type === 'future' ? "Create Team" : type === 'live' ? "Live Score" : "View Details"}
+          </Link>
+        </Button>
       </CardContent>
     </Card>
   );
 }
 
-function MatchesSkeleton() {
+function ColumnSkeleton() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {[1, 2, 3, 4, 5, 6].map((i) => (
+    <div className="space-y-4">
+      {[1, 2, 3].map((i) => (
         <Card key={i} className="overflow-hidden">
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <Skeleton className="h-5 w-16" />
               <Skeleton className="h-5 w-12" />
             </div>
-            <Skeleton className="h-6 w-3/4 mt-2" />
-            <Skeleton className="h-4 w-1/2 mt-1" />
+            <Skeleton className="h-5 w-3/4 mt-2" />
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-3">
-              <Skeleton className="h-16 w-full rounded-lg" />
-              <Skeleton className="h-16 w-full rounded-lg" />
-            </div>
+          <CardContent className="space-y-3">
+            <Skeleton className="h-12 w-full rounded-lg" />
+            <Skeleton className="h-12 w-full rounded-lg" />
             <Skeleton className="h-4 w-2/3" />
-            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-8 w-full" />
           </CardContent>
         </Card>
       ))}
@@ -122,10 +189,56 @@ function MatchesSkeleton() {
   );
 }
 
+function MatchColumn({ 
+  title, 
+  icon: Icon, 
+  matches, 
+  type, 
+  emptyMessage,
+  columnClass 
+}: { 
+  title: string; 
+  icon: any; 
+  matches: any[]; 
+  type: 'past' | 'live' | 'future';
+  emptyMessage: string;
+  columnClass: string;
+}) {
+  return (
+    <div className={`match-column ${columnClass}`}>
+      <div className="flex items-center gap-2 mb-4 sticky top-0 bg-inherit py-2">
+        <Icon className={`h-5 w-5 ${type === 'live' ? 'text-secondary' : type === 'future' ? 'text-primary' : 'text-accent'}`} />
+        <h2 className="text-lg font-bold">{title}</h2>
+        <Badge variant="secondary" className="ml-auto">{matches.length}</Badge>
+      </div>
+      
+      <div className="space-y-4 max-h-[calc(100vh-300px)] overflow-y-auto pr-2">
+        {matches.length > 0 ? (
+          matches.map((match: any) => (
+            <MatchCard key={match.id} match={match} type={type} />
+          ))
+        ) : (
+          <Card className="text-center py-8">
+            <CardContent>
+              <Icon className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
+              <p className="text-sm text-muted-foreground">{emptyMessage}</p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Matches() {
   const { data: matches, isLoading, error, refetch } = trpc.matches.getCurrent.useQuery(undefined, {
-    refetchInterval: 60000, // Refetch every minute for live updates
+    refetchInterval: 30000, // Refetch every 30 seconds for live updates
   });
+
+  const categorizedMatches = useMemo(() => {
+    if (!matches) return { past: [], live: [], future: [] };
+    return categorizeMatches(matches);
+  }, [matches]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -133,33 +246,33 @@ export default function Matches() {
       
       <main className="flex-1 container py-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold">Live Matches</h1>
+            <h1 className="text-3xl font-bold">Cricket Matches</h1>
             <p className="text-muted-foreground mt-1">
-              Real-time cricket matches from around the world
+              Real-time cricket action • All times in IST
             </p>
           </div>
-          <Button variant="outline" onClick={() => refetch()}>
+          <Button variant="outline" onClick={() => refetch()} className="shrink-0">
             <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
         </div>
 
         {/* Free to Play Banner */}
-        <div className="mb-8 p-4 rounded-lg gradient-emerald text-white">
+        <div className="mb-6 p-4 rounded-xl gradient-teal">
           <div className="flex items-center gap-3">
-            <Trophy className="h-6 w-6" />
+            <Trophy className="h-6 w-6 text-primary-foreground" />
             <div>
-              <p className="font-semibold">100% Free to Play</p>
-              <p className="text-sm opacity-90">Create teams, join contests, and compete with other fans!</p>
+              <p className="font-semibold text-primary-foreground">100% Free to Play</p>
+              <p className="text-sm text-primary-foreground/80">Create teams, join contests, and compete with other fans!</p>
             </div>
           </div>
         </div>
 
         {/* Error State */}
         {error && (
-          <Card className="mb-8 border-destructive">
+          <Card className="mb-6 border-destructive">
             <CardContent className="flex items-center gap-4 py-6">
               <AlertCircle className="h-8 w-8 text-destructive" />
               <div>
@@ -174,29 +287,78 @@ export default function Matches() {
         )}
 
         {/* Loading State */}
-        {isLoading && <MatchesSkeleton />}
-
-        {/* Matches Grid */}
-        {!isLoading && !error && matches && (
-          <>
-            {matches.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {matches.map((match: any) => (
-                  <MatchCard key={match.id} match={match} />
-                ))}
+        {isLoading && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="match-column match-column-past">
+              <div className="flex items-center gap-2 mb-4">
+                <Skeleton className="h-5 w-5" />
+                <Skeleton className="h-6 w-24" />
               </div>
-            ) : (
-              <Card className="text-center py-12">
-                <CardContent>
-                  <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No Live Matches</h3>
-                  <p className="text-muted-foreground">
-                    There are no live or upcoming matches at the moment. Check back later!
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-          </>
+              <ColumnSkeleton />
+            </div>
+            <div className="match-column match-column-live">
+              <div className="flex items-center gap-2 mb-4">
+                <Skeleton className="h-5 w-5" />
+                <Skeleton className="h-6 w-24" />
+              </div>
+              <ColumnSkeleton />
+            </div>
+            <div className="match-column match-column-future">
+              <div className="flex items-center gap-2 mb-4">
+                <Skeleton className="h-5 w-5" />
+                <Skeleton className="h-6 w-24" />
+              </div>
+              <ColumnSkeleton />
+            </div>
+          </div>
+        )}
+
+        {/* 3-Column Vertical Layout: Past | Live | Future */}
+        {!isLoading && !error && matches && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Past Matches Column */}
+            <MatchColumn
+              title="Completed"
+              icon={History}
+              matches={categorizedMatches.past}
+              type="past"
+              emptyMessage="No completed matches"
+              columnClass="match-column-past"
+            />
+
+            {/* Live Matches Column */}
+            <MatchColumn
+              title="Live Now"
+              icon={Radio}
+              matches={categorizedMatches.live}
+              type="live"
+              emptyMessage="No live matches right now"
+              columnClass="match-column-live"
+            />
+
+            {/* Future Matches Column */}
+            <MatchColumn
+              title="Upcoming"
+              icon={CalendarClock}
+              matches={categorizedMatches.future}
+              type="future"
+              emptyMessage="No upcoming matches scheduled"
+              columnClass="match-column-future"
+            />
+          </div>
+        )}
+
+        {/* No matches at all */}
+        {!isLoading && !error && matches && matches.length === 0 && (
+          <Card className="text-center py-12">
+            <CardContent>
+              <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <h3 className="text-lg font-semibold mb-2">No Matches Available</h3>
+              <p className="text-muted-foreground">
+                There are no matches at the moment. Check back later!
+              </p>
+            </CardContent>
+          </Card>
         )}
       </main>
 
