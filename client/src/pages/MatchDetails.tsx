@@ -151,7 +151,11 @@ export default function MatchDetails() {
                         <span className="font-semibold text-lg">{team}</span>
                       </div>
                       {match?.score?.[index] && (
-                        <span className="font-bold text-xl">{match.score[index]}</span>
+                        <span className="font-bold text-xl">
+                          {typeof match.score[index] === 'object' 
+                            ? `${match.score[index].r || 0}/${match.score[index].w || 0} (${match.score[index].o || 0})`
+                            : match.score[index]}
+                        </span>
                       )}
                     </div>
                   ))}

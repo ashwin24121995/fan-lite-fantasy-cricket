@@ -83,3 +83,6 @@
 - [x] Contact: www.FanLiteFantasyCricket.com
 - [x] Copyright notice
 - [x] Platform description
+
+## Bug Fixes
+- [x] Fix score object rendering error on /matches page (CricAPI returns score as object with r,w,o,inning keys)

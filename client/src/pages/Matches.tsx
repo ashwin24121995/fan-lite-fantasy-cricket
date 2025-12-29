@@ -51,7 +51,11 @@ function MatchCard({ match }: { match: any }) {
                 <span className="font-medium">{team || "Team"}</span>
               </div>
               {match.score?.[index] && (
-                <span className="font-bold text-lg">{match.score[index]}</span>
+                <span className="font-bold text-lg">
+                  {typeof match.score[index] === 'object' 
+                    ? `${match.score[index].r || 0}/${match.score[index].w || 0} (${match.score[index].o || 0})`
+                    : match.score[index]}
+                </span>
               )}
             </div>
           ))}
