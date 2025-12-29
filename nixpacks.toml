@@ -1,16 +1,5 @@
-# Force rebuild - timestamp: 2025-12-29T16:30:00Z
 [phases.setup]
 nixPkgs = ["nodejs_22", "pnpm-10_x", "openssl"]
 
 [phases.install]
 cmds = ["npm install -g corepack@0.24.1 && corepack enable pnpm", "pnpm i --frozen-lockfile"]
-
-[phases.build]
-cmds = [
-  "echo 'Building application...' && pnpm run build",
-  "echo 'Verifying build output...' && ls -la dist/ && test -f dist/index.js",
-  "echo 'Seeding database...' && pnpm seed:contests || echo 'Seeding skipped'"
-]
-
-[start]
-cmd = "node dist/index.js"

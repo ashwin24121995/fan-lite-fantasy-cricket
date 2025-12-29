@@ -1,13 +1,13 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "pnpm run build && ls -la dist/ && pnpm seed:contests || true"
   },
   "deploy": {
-    "startCommand": "pnpm start",
+    "startCommand": "node dist/index.js",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 300,
-    "healthcheckInterval": 10,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
