@@ -286,3 +286,41 @@ export async function upsertMatchCache(matchId: string, matchData: string, squad
     }
   });
 }
+
+
+// ==================== POINTS CALCULATION ====================
+
+export async function updateTeamPlayerPoints(playerId: number, points: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(teamPlayers).set({ points }).where(eq(teamPlayers.id, playerId));
+}
+
+export async function updateTeamPoints(teamId: number, totalPoints: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(userTeams).set({ totalPoints }).where(eq(userTeams.id, teamId));
+}
+
+export async function updateEntryRank(entryId: number, rankPosition: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(contestEntries).set({ rankPosition }).where(eq(contestEntries.id, entryId));
+}
+
+export async function getUpcomingContests() {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(contests).where(eq(contests.status, "upcoming"));
+}
+
+export async function getCompletedContests() {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(contests).where(eq(contests.status, "completed"));
+}

@@ -71,20 +71,43 @@ function LiveMatchCard({ match }: { match: any }) {
         </div>
         <p className="font-semibold text-sm line-clamp-2">{match.name}</p>
         
-        {/* Teams with scores */}
+        {/* Teams with logos and scores */}
         <div className="space-y-2">
-          {match.teams?.slice(0, 2).map((team: string, index: number) => (
-            <div key={index} className="flex items-center justify-between text-sm">
-              <span className="truncate max-w-[120px]">{team}</span>
-              {match.score?.[index] && (
-                <span className="font-bold">
-                  {typeof match.score[index] === 'object' 
-                    ? `${match.score[index].r || 0}/${match.score[index].w || 0}`
-                    : match.score[index]}
-                </span>
-              )}
-            </div>
-          ))}
+          {match.teams?.slice(0, 2).map((team: string, index: number) => {
+            const teamInfo = match.teamInfo?.find((t: any) => 
+              t.name === team || t.shortname === team?.substring(0, 3).toUpperCase()
+            );
+            return (
+              <div key={index} className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  {teamInfo?.img ? (
+                    <img 
+                      src={teamInfo.img} 
+                      alt={team} 
+                      className="h-6 w-6 rounded-full object-cover bg-white"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center">
+                      <span className="text-primary font-bold text-[10px]">
+                        {teamInfo?.shortname || team?.substring(0, 2).toUpperCase() || "??"}
+                      </span>
+                    </div>
+                  )}
+                  <span className="truncate max-w-[100px]">{team}</span>
+                </div>
+                {match.score?.[index] && (
+                  <span className="font-bold">
+                    {typeof match.score[index] === 'object' 
+                      ? `${match.score[index].r || 0}/${match.score[index].w || 0}`
+                      : match.score[index]}
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -134,7 +157,7 @@ export default function Home() {
   const { isAuthenticated } = useAuth();
   
   const { data: matches, isLoading: matchesLoading } = trpc.matches.getCurrent.useQuery(undefined, {
-    refetchInterval: 60000,
+    refetchInterval: 30000, // Auto-refresh every 30 seconds
   });
 
   const displayMatches = matches?.slice(0, 4) || [];

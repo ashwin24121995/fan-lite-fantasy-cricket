@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Calendar, MapPin, Clock, Trophy, AlertCircle, RefreshCw, History, Radio, CalendarClock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 // Convert GMT to IST (add 5 hours 30 minutes)
 function convertToIST(dateString: string | undefined): string {
@@ -134,25 +134,42 @@ function MatchCard({ match, type }: { match: any; type: 'past' | 'live' | 'futur
       <CardContent className="space-y-3">
         {/* Teams */}
         <div className="space-y-2">
-          {match.teams?.map((team: string, index: number) => (
-            <div key={index} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-primary font-bold text-xs">
-                    {team?.substring(0, 2).toUpperCase() || "??"}
-                  </span>
+          {match.teams?.map((team: string, index: number) => {
+            // Find team info for logo
+            const teamInfo = match.teamInfo?.find((t: any) => 
+              t.name === team || t.shortname === team?.substring(0, 3).toUpperCase()
+            );
+            return (
+              <div key={index} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
+                <div className="flex items-center gap-2">
+                  {teamInfo?.img ? (
+                    <img 
+                      src={teamInfo.img} 
+                      alt={team} 
+                      className="h-8 w-8 rounded-full object-cover bg-white"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                        (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                      }}
+                    />
+                  ) : null}
+                  <div className={`h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center ${teamInfo?.img ? 'hidden' : ''}`}>
+                    <span className="text-primary font-bold text-xs">
+                      {teamInfo?.shortname || team?.substring(0, 2).toUpperCase() || "??"}
+                    </span>
+                  </div>
+                  <span className="font-medium text-sm truncate max-w-[100px]">{team || "Team"}</span>
                 </div>
-                <span className="font-medium text-sm truncate max-w-[100px]">{team || "Team"}</span>
+                {match.score?.[index] && (
+                  <span className="font-bold text-sm">
+                    {typeof match.score[index] === 'object' 
+                      ? `${match.score[index].r || 0}/${match.score[index].w || 0} (${match.score[index].o || 0})`
+                      : match.score[index]}
+                  </span>
+                )}
               </div>
-              {match.score?.[index] && (
-                <span className="font-bold text-sm">
-                  {typeof match.score[index] === 'object' 
-                    ? `${match.score[index].r || 0}/${match.score[index].w || 0} (${match.score[index].o || 0})`
-                    : match.score[index]}
-                </span>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Date/Time in IST */}
@@ -215,7 +232,8 @@ function MatchColumn({
   matches, 
   type, 
   emptyMessage,
-  columnClass 
+  columnClass,
+  lastChecked
 }: { 
   title: string; 
   icon: any; 
@@ -223,6 +241,7 @@ function MatchColumn({
   type: 'past' | 'live' | 'future';
   emptyMessage: string;
   columnClass: string;
+  lastChecked?: Date;
 }) {
   return (
     <div className={`match-column ${columnClass}`}>
@@ -246,8 +265,16 @@ function MatchColumn({
                 <Icon className={`h-6 w-6 ${type === 'live' ? 'text-secondary' : 'text-muted-foreground'}`} />
               </div>
               <p className="text-sm text-muted-foreground">{emptyMessage}</p>
-              {type === 'live' && (
-                <p className="text-xs text-muted-foreground/70 mt-2">Auto-refreshing every 30 seconds</p>
+              {type === 'live' && lastChecked && (
+                <p className="text-xs text-muted-foreground/50 mt-3">
+                  Last checked: {lastChecked.toLocaleString('en-IN', { 
+                    timeZone: 'Asia/Kolkata',
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit',
+                    hour12: true 
+                  })} IST
+                </p>
               )}
             </CardContent>
           </Card>
@@ -258,9 +285,18 @@ function MatchColumn({
 }
 
 export default function Matches() {
+  const [lastChecked, setLastChecked] = useState<Date | null>(null);
+  
   const { data: matches, isLoading, error, refetch } = trpc.matches.getAll.useQuery(undefined, {
     refetchInterval: 30000, // Refetch every 30 seconds for live updates
   });
+
+  // Update lastChecked timestamp when data is fetched
+  useEffect(() => {
+    if (matches) {
+      setLastChecked(new Date());
+    }
+  }, [matches]);
 
   const categorizedMatches = useMemo(() => {
     if (!matches) return { past: [], live: [], future: [] };
@@ -359,8 +395,9 @@ export default function Matches() {
               icon={Radio}
               matches={categorizedMatches.live}
               type="live"
-              emptyMessage="No matches are live at this moment. Check back during scheduled match times!"
+              emptyMessage="No live matches at the moment. Check back later!"
               columnClass="match-column-live"
+              lastChecked={lastChecked || undefined}
             />
 
             {/* Future Matches Column */}

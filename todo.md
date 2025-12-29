@@ -136,3 +136,39 @@
 - [x] Added getUpcoming endpoint to fetch upcoming matches from active series
 - [x] Added contest seeding API (contests.seed)
 - [x] Added contest sync API (contests.sync)
+
+## Bug Fix - Live Matches Not Showing
+- [ ] Re-read PDF to find correct CricAPI endpoint for live matches
+- [ ] Fix live match detection logic
+- [ ] Verify live matches are showing correctly
+
+## UI Polish
+- [x] Add "No Live Matches" message with timestamp like DineDivine
+- [x] Add last checked timestamp display
+
+## Contest Features
+- [x] Contest seeding API (create default contests for matches)
+- [x] Auto-create contests for new upcoming matches
+- [x] Contest status sync with match status
+
+## Points Calculation System
+- [x] Implement comprehensive points calculation
+- [x] Points calculation API for completed matches
+- [x] Batch points calculation for all completed contests
+- [x] Entry ranking system
+- [ ] Leaderboard ranking updates
+
+## Automation (Cron Jobs)
+- [x] Full sync cron job (auto-create contests, sync status, calculate points)
+- [x] Individual cron endpoints for granular control
+- [x] Auto-create contests endpoint
+- [x] Sync contest status endpoint
+- [x] Calculate all points endpoint
+- [ ] Set up cron job for contest status updates
+- [ ] Set up cron job for points calculation
+
+## Auto-Refresh & Team Logos (User Request)
+- [x] Auto-refresh matches every 30 seconds across entire website
+- [x] Live score updates every 3 seconds (faster refresh for live matches)
+- [x] Add team logos to match cards
+- [x] Show team logos on homepage

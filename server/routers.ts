@@ -9,6 +9,159 @@ import { TRPCError } from "@trpc/server";
 const CRIC_API_KEY = process.env.CRIC_API_KEY;
 const CRIC_API_BASE = "https://api.cricapi.com/v1";
 
+// Fantasy Points Calculation System
+const POINTS_SYSTEM = {
+  // Batting
+  RUN: 1,
+  BOUNDARY_BONUS: 1, // 4s
+  SIX_BONUS: 2, // 6s
+  HALF_CENTURY: 8,
+  CENTURY: 16,
+  DUCK: -2, // 0 runs (only for batsmen)
+  
+  // Bowling
+  WICKET: 25,
+  MAIDEN: 8,
+  THREE_WICKETS: 4,
+  FOUR_WICKETS: 8,
+  FIVE_WICKETS: 16,
+  
+  // Fielding
+  CATCH: 8,
+  STUMPING: 12,
+  RUN_OUT_DIRECT: 12,
+  RUN_OUT_INDIRECT: 6,
+  
+  // Economy Rate (per over, min 2 overs)
+  ECONOMY_BELOW_5: 6,
+  ECONOMY_5_TO_6: 4,
+  ECONOMY_6_TO_7: 2,
+  ECONOMY_9_TO_10: -2,
+  ECONOMY_10_TO_11: -4,
+  ECONOMY_ABOVE_11: -6,
+  
+  // Strike Rate (min 10 balls)
+  SR_ABOVE_170: 6,
+  SR_150_TO_170: 4,
+  SR_130_TO_150: 2,
+  SR_60_TO_70: -2,
+  SR_50_TO_60: -4,
+  SR_BELOW_50: -6,
+  
+  // Captain/Vice-Captain multipliers
+  CAPTAIN_MULTIPLIER: 2,
+  VICE_CAPTAIN_MULTIPLIER: 1.5,
+};
+
+// Helper function to calculate player points from scorecard
+function calculatePlayerPoints(
+  player: { playerId: string; playerName: string; playerRole?: string | null },
+  scorecard: any,
+  captainId: string,
+  viceCaptainId: string
+): number {
+  let points = 0;
+  
+  // Find player stats in scorecard
+  const allInnings = scorecard?.scorecard || [];
+  
+  for (const innings of allInnings) {
+    // Batting stats
+    const battingStats = innings?.batsman?.find((b: any) => 
+      b.batsman_id === player.playerId || 
+      b.batsman?.toLowerCase().includes(player.playerName.toLowerCase().split(' ')[0])
+    );
+    
+    if (battingStats) {
+      const runs = parseInt(battingStats.r || battingStats.runs || 0);
+      const balls = parseInt(battingStats.b || battingStats.balls || 0);
+      const fours = parseInt(battingStats['4s'] || battingStats.fours || 0);
+      const sixes = parseInt(battingStats['6s'] || battingStats.sixes || 0);
+      
+      // Runs
+      points += runs * POINTS_SYSTEM.RUN;
+      
+      // Boundaries
+      points += fours * POINTS_SYSTEM.BOUNDARY_BONUS;
+      points += sixes * POINTS_SYSTEM.SIX_BONUS;
+      
+      // Milestones
+      if (runs >= 100) points += POINTS_SYSTEM.CENTURY;
+      else if (runs >= 50) points += POINTS_SYSTEM.HALF_CENTURY;
+      
+      // Duck (only for top-order batsmen)
+      if (runs === 0 && balls > 0 && player.playerRole !== 'Bowler') {
+        points += POINTS_SYSTEM.DUCK;
+      }
+      
+      // Strike rate bonus/penalty (min 10 balls)
+      if (balls >= 10) {
+        const sr = (runs / balls) * 100;
+        if (sr > 170) points += POINTS_SYSTEM.SR_ABOVE_170;
+        else if (sr >= 150) points += POINTS_SYSTEM.SR_150_TO_170;
+        else if (sr >= 130) points += POINTS_SYSTEM.SR_130_TO_150;
+        else if (sr < 50) points += POINTS_SYSTEM.SR_BELOW_50;
+        else if (sr < 60) points += POINTS_SYSTEM.SR_50_TO_60;
+        else if (sr < 70) points += POINTS_SYSTEM.SR_60_TO_70;
+      }
+    }
+    
+    // Bowling stats
+    const bowlingStats = innings?.bowler?.find((b: any) => 
+      b.bowler_id === player.playerId ||
+      b.bowler?.toLowerCase().includes(player.playerName.toLowerCase().split(' ')[0])
+    );
+    
+    if (bowlingStats) {
+      const wickets = parseInt(bowlingStats.w || bowlingStats.wickets || 0);
+      const overs = parseFloat(bowlingStats.o || bowlingStats.overs || 0);
+      const runs = parseInt(bowlingStats.r || bowlingStats.runs || 0);
+      const maidens = parseInt(bowlingStats.m || bowlingStats.maidens || 0);
+      
+      // Wickets
+      points += wickets * POINTS_SYSTEM.WICKET;
+      
+      // Maidens
+      points += maidens * POINTS_SYSTEM.MAIDEN;
+      
+      // Wicket milestones
+      if (wickets >= 5) points += POINTS_SYSTEM.FIVE_WICKETS;
+      else if (wickets >= 4) points += POINTS_SYSTEM.FOUR_WICKETS;
+      else if (wickets >= 3) points += POINTS_SYSTEM.THREE_WICKETS;
+      
+      // Economy rate (min 2 overs)
+      if (overs >= 2) {
+        const economy = runs / overs;
+        if (economy < 5) points += POINTS_SYSTEM.ECONOMY_BELOW_5;
+        else if (economy < 6) points += POINTS_SYSTEM.ECONOMY_5_TO_6;
+        else if (economy < 7) points += POINTS_SYSTEM.ECONOMY_6_TO_7;
+        else if (economy >= 11) points += POINTS_SYSTEM.ECONOMY_ABOVE_11;
+        else if (economy >= 10) points += POINTS_SYSTEM.ECONOMY_10_TO_11;
+        else if (economy >= 9) points += POINTS_SYSTEM.ECONOMY_9_TO_10;
+      }
+    }
+  }
+  
+  // Fielding stats (catches, stumpings, run outs)
+  // Note: CricAPI may not provide detailed fielding stats, so we'll check if available
+  const catches = scorecard?.catches?.[player.playerId] || 0;
+  const stumpings = scorecard?.stumpings?.[player.playerId] || 0;
+  const runOuts = scorecard?.runOuts?.[player.playerId] || 0;
+  
+  points += catches * POINTS_SYSTEM.CATCH;
+  points += stumpings * POINTS_SYSTEM.STUMPING;
+  points += runOuts * POINTS_SYSTEM.RUN_OUT_DIRECT;
+  
+  // Apply captain/vice-captain multiplier
+  if (player.playerId === captainId) {
+    points *= POINTS_SYSTEM.CAPTAIN_MULTIPLIER;
+  } else if (player.playerId === viceCaptainId) {
+    points *= POINTS_SYSTEM.VICE_CAPTAIN_MULTIPLIER;
+  }
+  
+  return Math.round(points * 100) / 100; // Round to 2 decimal places
+}
+
 // Helper to fetch from CricAPI
 async function fetchCricAPI(endpoint: string, params: Record<string, string> = {}) {
   const url = new URL(`${CRIC_API_BASE}/${endpoint}`);
@@ -417,6 +570,174 @@ export const appRouter = router({
       
       return { message: `Synced ${updated} contests`, updated };
     }),
+    
+    // Auto-create contests for upcoming matches
+    autoCreate: publicProcedure.mutation(async () => {
+      try {
+        // Get all current matches
+        const matchData = await fetchCricAPI("currentMatches");
+        const matches = matchData.data || [];
+        
+        // Filter for upcoming matches (not started yet)
+        const upcomingMatches = matches.filter((m: any) => 
+          !m.matchStarted && !m.matchEnded
+        );
+        
+        let created = 0;
+        const createdForMatches: string[] = [];
+        
+        for (const match of upcomingMatches) {
+          // Check if contests already exist for this match
+          const existingContests = await db.getContestsByMatch(match.id);
+          if (existingContests.length > 0) continue;
+          
+          // Create default free contests
+          const defaultContests = [
+            { name: "Mega Contest", description: "The biggest free contest! Compete with thousands of players.", maxEntries: 10000, prizeDescription: "Top 10% win bragging rights!" },
+            { name: "Head to Head", description: "1v1 battle - prove you're the best!", maxEntries: 2, prizeDescription: "Winner takes all glory!" },
+            { name: "Small League", description: "Perfect for beginners and casual players.", maxEntries: 10, prizeDescription: "Top 3 positions rewarded!" },
+            { name: "Winners Circle", description: "For the competitive players.", maxEntries: 100, prizeDescription: "Top 10 positions rewarded!" },
+          ];
+          
+          for (const contest of defaultContests) {
+            await db.createContest({
+              matchId: match.id,
+              name: contest.name,
+              description: contest.description,
+              maxEntries: contest.maxEntries,
+              prizeDescription: contest.prizeDescription,
+            });
+          }
+          
+          created += defaultContests.length;
+          createdForMatches.push(match.name || match.id);
+        }
+        
+        return { 
+          message: `Auto-created ${created} contests for ${createdForMatches.length} matches`,
+          created,
+          matches: createdForMatches
+        };
+      } catch (error) {
+        console.error("Auto-create contests failed:", error);
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to auto-create contests" });
+      }
+    }),
+    
+    // Calculate points for completed matches
+    calculatePoints: publicProcedure
+      .input(z.object({ contestId: z.number() }))
+      .mutation(async ({ input }) => {
+        const contest = await db.getContestById(input.contestId);
+        if (!contest) throw new TRPCError({ code: "NOT_FOUND", message: "Contest not found" });
+        
+        // Get match scorecard data
+        let scorecard;
+        try {
+          const scorecardData = await fetchCricAPI("match_scorecard", { id: contest.matchId });
+          scorecard = scorecardData.data;
+        } catch (error) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to fetch scorecard" });
+        }
+        
+        if (!scorecard) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Scorecard not available" });
+        }
+        
+        // Get all entries for this contest
+        const entries = await db.getContestEntries(input.contestId);
+        
+        // Calculate points for each entry
+        for (const entry of entries) {
+          const teamPlayers = await db.getTeamPlayers(entry.team.id);
+          let totalPoints = 0;
+          
+          for (const player of teamPlayers) {
+            const playerPoints = calculatePlayerPoints(player, scorecard, entry.team.captainId, entry.team.viceCaptainId);
+            totalPoints += playerPoints;
+            
+            // Update individual player points
+            await db.updateTeamPlayerPoints(player.id, playerPoints.toString());
+          }
+          
+          // Update team total points
+          await db.updateTeamPoints(entry.team.id, totalPoints.toString());
+          
+          // Update entry points
+          await db.updateEntryPoints(entry.entry.id, totalPoints.toString());
+        }
+        
+        // Update rankings
+        const updatedEntries = await db.getContestEntries(input.contestId);
+        const sortedEntries = updatedEntries.sort((a, b) => 
+          parseFloat(b.entry.points?.toString() || "0") - parseFloat(a.entry.points?.toString() || "0")
+        );
+        
+        for (let i = 0; i < sortedEntries.length; i++) {
+          await db.updateEntryRank(sortedEntries[i].entry.id, i + 1);
+        }
+        
+        return { 
+          message: `Calculated points for ${entries.length} entries`,
+          entriesProcessed: entries.length
+        };
+      }),
+    
+    // Batch calculate points for all completed contests
+    calculateAllPoints: publicProcedure.mutation(async () => {
+      const allContests = await db.getAllContests();
+      const completedContests = allContests.filter(c => c.status === "completed");
+      
+      let processed = 0;
+      const errors: string[] = [];
+      
+      for (const contest of completedContests) {
+        try {
+          // Get match scorecard data
+          const scorecardData = await fetchCricAPI("match_scorecard", { id: contest.matchId });
+          const scorecard = scorecardData.data;
+          
+          if (!scorecard) continue;
+          
+          // Get all entries for this contest
+          const entries = await db.getContestEntries(contest.id);
+          
+          for (const entry of entries) {
+            const teamPlayers = await db.getTeamPlayers(entry.team.id);
+            let totalPoints = 0;
+            
+            for (const player of teamPlayers) {
+              const playerPoints = calculatePlayerPoints(player, scorecard, entry.team.captainId, entry.team.viceCaptainId);
+              totalPoints += playerPoints;
+              await db.updateTeamPlayerPoints(player.id, playerPoints.toString());
+            }
+            
+            await db.updateTeamPoints(entry.team.id, totalPoints.toString());
+            await db.updateEntryPoints(entry.entry.id, totalPoints.toString());
+          }
+          
+          // Update rankings
+          const updatedEntries = await db.getContestEntries(contest.id);
+          const sortedEntries = updatedEntries.sort((a, b) => 
+            parseFloat(b.entry.points?.toString() || "0") - parseFloat(a.entry.points?.toString() || "0")
+          );
+          
+          for (let i = 0; i < sortedEntries.length; i++) {
+            await db.updateEntryRank(sortedEntries[i].entry.id, i + 1);
+          }
+          
+          processed++;
+        } catch (error) {
+          errors.push(`Contest ${contest.id}: ${error}`);
+        }
+      }
+      
+      return { 
+        message: `Processed ${processed} contests`,
+        processed,
+        errors: errors.length > 0 ? errors : undefined
+      };
+    }),
   }),
 
   // Dashboard
@@ -439,6 +760,235 @@ export const appRouter = router({
         recentTeams: teams.slice(0, 5),
         recentEntries: entries.slice(0, 5),
       };
+    }),
+  }),
+  
+  // Cron Jobs - Automated tasks that can be triggered by external schedulers
+  cron: router({
+    // Full sync job - runs all automated tasks
+    fullSync: publicProcedure.mutation(async () => {
+      const results = {
+        autoCreateContests: { success: false, message: "", created: 0 },
+        syncContestStatus: { success: false, message: "", updated: 0 },
+        calculatePoints: { success: false, message: "", processed: 0 },
+        timestamp: new Date().toISOString(),
+      };
+      
+      // 1. Auto-create contests for new upcoming matches
+      try {
+        const matchData = await fetchCricAPI("currentMatches");
+        const matches = matchData.data || [];
+        const upcomingMatches = matches.filter((m: any) => !m.matchStarted && !m.matchEnded);
+        
+        let created = 0;
+        for (const match of upcomingMatches) {
+          const existingContests = await db.getContestsByMatch(match.id);
+          if (existingContests.length > 0) continue;
+          
+          const defaultContests = [
+            { name: "Mega Contest", description: "The biggest free contest!", maxEntries: 10000, prizeDescription: "Top 10% win bragging rights!" },
+            { name: "Head to Head", description: "1v1 battle!", maxEntries: 2, prizeDescription: "Winner takes all glory!" },
+            { name: "Small League", description: "Perfect for beginners.", maxEntries: 10, prizeDescription: "Top 3 positions rewarded!" },
+            { name: "Winners Circle", description: "For competitive players.", maxEntries: 100, prizeDescription: "Top 10 positions rewarded!" },
+          ];
+          
+          for (const contest of defaultContests) {
+            await db.createContest({ matchId: match.id, ...contest });
+          }
+          created += defaultContests.length;
+        }
+        
+        results.autoCreateContests = { success: true, message: `Created ${created} contests`, created };
+      } catch (error) {
+        results.autoCreateContests = { success: false, message: `Error: ${error}`, created: 0 };
+      }
+      
+      // 2. Sync contest status with match status
+      try {
+        const allContests = await db.getAllContests();
+        let updated = 0;
+        
+        for (const contest of allContests) {
+          try {
+            const matchData = await fetchCricAPI("match_info", { id: contest.matchId });
+            const match = matchData.data;
+            if (!match) continue;
+            
+            let newStatus: "upcoming" | "live" | "completed" = "upcoming";
+            if (match.matchEnded) newStatus = "completed";
+            else if (match.matchStarted) newStatus = "live";
+            
+            if (newStatus !== contest.status) {
+              await db.updateContestStatus(contest.id, newStatus);
+              updated++;
+            }
+          } catch (e) {
+            // Skip individual contest errors
+          }
+        }
+        
+        results.syncContestStatus = { success: true, message: `Updated ${updated} contests`, updated };
+      } catch (error) {
+        results.syncContestStatus = { success: false, message: `Error: ${error}`, updated: 0 };
+      }
+      
+      // 3. Calculate points for completed contests
+      try {
+        const allContests = await db.getAllContests();
+        const completedContests = allContests.filter(c => c.status === "completed");
+        let processed = 0;
+        
+        for (const contest of completedContests) {
+          try {
+            const scorecardData = await fetchCricAPI("match_scorecard", { id: contest.matchId });
+            const scorecard = scorecardData.data;
+            if (!scorecard) continue;
+            
+            const entries = await db.getContestEntries(contest.id);
+            
+            for (const entry of entries) {
+              const teamPlayers = await db.getTeamPlayers(entry.team.id);
+              let totalPoints = 0;
+              
+              for (const player of teamPlayers) {
+                const playerPoints = calculatePlayerPoints(player, scorecard, entry.team.captainId, entry.team.viceCaptainId);
+                totalPoints += playerPoints;
+                await db.updateTeamPlayerPoints(player.id, playerPoints.toString());
+              }
+              
+              await db.updateTeamPoints(entry.team.id, totalPoints.toString());
+              await db.updateEntryPoints(entry.entry.id, totalPoints.toString());
+            }
+            
+            // Update rankings
+            const updatedEntries = await db.getContestEntries(contest.id);
+            const sortedEntries = updatedEntries.sort((a, b) => 
+              parseFloat(b.entry.points?.toString() || "0") - parseFloat(a.entry.points?.toString() || "0")
+            );
+            
+            for (let i = 0; i < sortedEntries.length; i++) {
+              await db.updateEntryRank(sortedEntries[i].entry.id, i + 1);
+            }
+            
+            processed++;
+          } catch (e) {
+            // Skip individual contest errors
+          }
+        }
+        
+        results.calculatePoints = { success: true, message: `Processed ${processed} contests`, processed };
+      } catch (error) {
+        results.calculatePoints = { success: false, message: `Error: ${error}`, processed: 0 };
+      }
+      
+      return results;
+    }),
+    
+    // Individual cron endpoints for more granular control
+    autoCreateContests: publicProcedure.mutation(async () => {
+      try {
+        const matchData = await fetchCricAPI("currentMatches");
+        const matches = matchData.data || [];
+        const upcomingMatches = matches.filter((m: any) => !m.matchStarted && !m.matchEnded);
+        
+        let created = 0;
+        const createdForMatches: string[] = [];
+        
+        for (const match of upcomingMatches) {
+          const existingContests = await db.getContestsByMatch(match.id);
+          if (existingContests.length > 0) continue;
+          
+          const defaultContests = [
+            { name: "Mega Contest", description: "The biggest free contest!", maxEntries: 10000, prizeDescription: "Top 10% win bragging rights!" },
+            { name: "Head to Head", description: "1v1 battle!", maxEntries: 2, prizeDescription: "Winner takes all glory!" },
+            { name: "Small League", description: "Perfect for beginners.", maxEntries: 10, prizeDescription: "Top 3 positions rewarded!" },
+            { name: "Winners Circle", description: "For competitive players.", maxEntries: 100, prizeDescription: "Top 10 positions rewarded!" },
+          ];
+          
+          for (const contest of defaultContests) {
+            await db.createContest({ matchId: match.id, ...contest });
+          }
+          created += defaultContests.length;
+          createdForMatches.push(match.name || match.id);
+        }
+        
+        return { success: true, message: `Created ${created} contests for ${createdForMatches.length} matches`, created, matches: createdForMatches };
+      } catch (error) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: `Failed: ${error}` });
+      }
+    }),
+    
+    syncStatus: publicProcedure.mutation(async () => {
+      const allContests = await db.getAllContests();
+      let updated = 0;
+      
+      for (const contest of allContests) {
+        try {
+          const matchData = await fetchCricAPI("match_info", { id: contest.matchId });
+          const match = matchData.data;
+          if (!match) continue;
+          
+          let newStatus: "upcoming" | "live" | "completed" = "upcoming";
+          if (match.matchEnded) newStatus = "completed";
+          else if (match.matchStarted) newStatus = "live";
+          
+          if (newStatus !== contest.status) {
+            await db.updateContestStatus(contest.id, newStatus);
+            updated++;
+          }
+        } catch (e) {
+          // Skip individual errors
+        }
+      }
+      
+      return { success: true, message: `Updated ${updated} contests`, updated };
+    }),
+    
+    calculateAllPoints: publicProcedure.mutation(async () => {
+      const allContests = await db.getAllContests();
+      const completedContests = allContests.filter(c => c.status === "completed");
+      let processed = 0;
+      const errors: string[] = [];
+      
+      for (const contest of completedContests) {
+        try {
+          const scorecardData = await fetchCricAPI("match_scorecard", { id: contest.matchId });
+          const scorecard = scorecardData.data;
+          if (!scorecard) continue;
+          
+          const entries = await db.getContestEntries(contest.id);
+          
+          for (const entry of entries) {
+            const teamPlayers = await db.getTeamPlayers(entry.team.id);
+            let totalPoints = 0;
+            
+            for (const player of teamPlayers) {
+              const playerPoints = calculatePlayerPoints(player, scorecard, entry.team.captainId, entry.team.viceCaptainId);
+              totalPoints += playerPoints;
+              await db.updateTeamPlayerPoints(player.id, playerPoints.toString());
+            }
+            
+            await db.updateTeamPoints(entry.team.id, totalPoints.toString());
+            await db.updateEntryPoints(entry.entry.id, totalPoints.toString());
+          }
+          
+          // Update rankings
+          const updatedEntries = await db.getContestEntries(contest.id);
+          const sortedEntries = updatedEntries.sort((a, b) => 
+            parseFloat(b.entry.points?.toString() || "0") - parseFloat(a.entry.points?.toString() || "0")
+          );
+          
+          for (let i = 0; i < sortedEntries.length; i++) {
+            await db.updateEntryRank(sortedEntries[i].entry.id, i + 1);
+          }
+          
+          processed++;
+        } catch (error) {
+          errors.push(`Contest ${contest.id}: ${error}`);
+        }
+      }
+      
+      return { success: true, message: `Processed ${processed} contests`, processed, errors: errors.length > 0 ? errors : undefined };
     }),
   }),
 });

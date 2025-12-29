@@ -39,7 +39,7 @@ export default function LiveScores() {
     { matchId: matchId || "" },
     { 
       enabled: !!matchId,
-      refetchInterval: autoRefresh ? 30000 : false, // Auto-refresh every 30 seconds
+      refetchInterval: autoRefresh ? 3000 : false, // Auto-refresh every 3 seconds for live scores
     }
   );
 
