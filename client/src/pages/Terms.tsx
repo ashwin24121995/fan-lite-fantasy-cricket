@@ -13,7 +13,7 @@ export default function Terms() {
               Terms of <span className="text-primary">Service</span>
             </h1>
             <p className="text-xl text-muted-foreground">
-              Last updated: December 2024
+              Last updated: December 2025
             </p>
           </div>
         </section>

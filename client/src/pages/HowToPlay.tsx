@@ -1,280 +1,373 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { 
-  UserPlus, 
-  Search, 
-  Users, 
-  Trophy, 
-  Star, 
-  Target,
-  Zap,
-  Award,
-  TrendingUp
-} from "lucide-react";
 
 export default function HowToPlay() {
-  const pointsSystem = [
-    { category: "Batting", action: "Run scored", points: "+1" },
-    { category: "Batting", action: "Boundary (4)", points: "+1" },
-    { category: "Batting", action: "Six", points: "+2" },
-    { category: "Batting", action: "Half-century (50 runs)", points: "+10 bonus" },
-    { category: "Batting", action: "Century (100 runs)", points: "+25 bonus" },
-    { category: "Batting", action: "Duck (0 runs, out)", points: "-5" },
-    { category: "Bowling", action: "Wicket taken", points: "+25" },
-    { category: "Bowling", action: "3-wicket haul", points: "+10 bonus" },
-    { category: "Bowling", action: "5-wicket haul", points: "+25 bonus" },
-    { category: "Bowling", action: "Maiden over", points: "+10" },
-    { category: "Fielding", action: "Catch taken", points: "+10" },
-    { category: "Fielding", action: "Stumping", points: "+15" },
-    { category: "Fielding", action: "Run-out (direct)", points: "+10" },
-    { category: "Fielding", action: "Run-out (indirect)", points: "+5" },
-    { category: "Multiplier", action: "Captain", points: "2x points" },
-    { category: "Multiplier", action: "Vice-Captain", points: "1.5x points" },
-  ];
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 py-16">
-          <div className="container">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              How to Play <span className="text-primary">Fantasy Cricket</span>
+        <section className="bg-gradient-to-br from-slate-900 via-teal-900 to-emerald-900 py-20 px-4">
+          <div className="container max-w-6xl mx-auto text-center">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              How to <span className="text-teal-400">Play</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl">
-              Learn how to create your dream team, join contests, and compete with fellow cricket fans—all for free!
+            <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Master the art of fantasy cricket with our comprehensive guide. Learn the rules, strategies, and tips to dominate the leaderboards.
             </p>
           </div>
         </section>
 
-        {/* Steps Section */}
-        <section className="py-16 container">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Getting Started in 4 Easy Steps</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="bg-card border-border relative">
-              <div className="absolute -top-4 -left-4 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
-                1
+        {/* Quick Start Section */}
+        <section className="py-20 px-4 bg-white">
+          <div className="container max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+                Quick <span className="text-teal-600">Start Guide</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Get started in just 3 simple steps
+              </p>
+            </div>
+
+            <div className="mb-12">
+              <img src="/howtoplay-steps.jpg" alt="How to Play Steps" className="rounded-xl shadow-2xl w-full" />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-gradient-to-br from-teal-50 to-emerald-50 p-8 rounded-xl border-l-4 border-teal-500">
+                <div className="text-5xl font-bold text-teal-600 mb-4">1</div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">Select a Match</h3>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Browse through live and upcoming cricket matches from around the world. You can filter by tournament, team, or date. Click on any match to view detailed information including team lineups, recent form, and head-to-head statistics.
+                </p>
+                <div className="bg-white p-4 rounded-lg">
+                  <p className="text-sm font-semibold text-slate-900 mb-2">💡 Pro Tip:</p>
+                  <p className="text-sm text-gray-600">
+                    Choose matches where you have good knowledge of both teams for better decision-making.
+                  </p>
+                </div>
               </div>
-              <CardHeader>
-                <UserPlus className="w-10 h-10 text-primary mb-2" />
-                <CardTitle className="text-foreground">Create Account</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground">
-                Sign up with your email and password. It's completely free—no payment information required, ever.
-              </CardContent>
-            </Card>
 
-            <Card className="bg-card border-border relative">
-              <div className="absolute -top-4 -left-4 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
-                2
+              <div className="bg-gradient-to-br from-coral-50 to-orange-50 p-8 rounded-xl border-l-4 border-coral-500">
+                <div className="text-5xl font-bold text-coral-600 mb-4">2</div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">Create Your Team</h3>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Select 11 players from the match within your 100-credit budget. Each player has a credit cost based on their performance history and current form. Choose your captain (2x points) and vice-captain (1.5x points) strategically.
+                </p>
+                <div className="bg-white p-4 rounded-lg">
+                  <p className="text-sm font-semibold text-slate-900 mb-2">💡 Pro Tip:</p>
+                  <p className="text-sm text-gray-600">
+                    Balance your team with a mix of batsmen, bowlers, all-rounders, and a wicket-keeper.
+                  </p>
+                </div>
               </div>
-              <CardHeader>
-                <Search className="w-10 h-10 text-primary mb-2" />
-                <CardTitle className="text-foreground">Select a Match</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground">
-                Browse upcoming cricket matches. Choose any match you want to play—IPL, international, or domestic cricket.
-              </CardContent>
-            </Card>
 
-            <Card className="bg-card border-border relative">
-              <div className="absolute -top-4 -left-4 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
-                3
+              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 p-8 rounded-xl border-l-4 border-emerald-500">
+                <div className="text-5xl font-bold text-emerald-600 mb-4">3</div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">Join Contests</h3>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Enter free contests and compete with other cricket fans. Join public contests to compete globally or create private leagues with friends. Track your performance on the live leaderboard as the match progresses.
+                </p>
+                <div className="bg-white p-4 rounded-lg">
+                  <p className="text-sm font-semibold text-slate-900 mb-2">💡 Pro Tip:</p>
+                  <p className="text-sm text-gray-600">
+                    Join multiple contests with different teams to maximize your chances of winning.
+                  </p>
+                </div>
               </div>
-              <CardHeader>
-                <Users className="w-10 h-10 text-primary mb-2" />
-                <CardTitle className="text-foreground">Build Your Team</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground">
-                Select 11 players within 100 credits. Choose your captain (2x points) and vice-captain (1.5x points) wisely.
-              </CardContent>
-            </Card>
-
-            <Card className="bg-card border-border relative">
-              <div className="absolute -top-4 -left-4 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
-                4
-              </div>
-              <CardHeader>
-                <Trophy className="w-10 h-10 text-primary mb-2" />
-                <CardTitle className="text-foreground">Join Contests</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground">
-                Enter free contests with your team. Track live scores and climb the leaderboard as your players perform!
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        {/* Team Building Rules */}
-        <section className="py-16 bg-muted/30">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-foreground text-center mb-12">Team Building Rules</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                      <Users className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-foreground">11 Players</h3>
-                  </div>
-                  <p className="text-muted-foreground">
-                    Select exactly 11 players from both teams playing in the match. You can pick players from either team.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                      <Target className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-foreground">100 Credits Budget</h3>
-                  </div>
-                  <p className="text-muted-foreground">
-                    Each player has a credit value (7-11 credits). Your total team must not exceed 100 credits.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                      <Star className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-foreground">Captain & Vice-Captain</h3>
-                  </div>
-                  <p className="text-muted-foreground">
-                    Choose 1 captain (2x points) and 1 vice-captain (1.5x points). These selections are crucial for success.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                      <Zap className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-foreground">Role Balance</h3>
-                  </div>
-                  <p className="text-muted-foreground">
-                    Include a mix of batsmen, bowlers, all-rounders, and wicket-keepers for a balanced team.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                      <Award className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-foreground">Max 7 Per Team</h3>
-                  </div>
-                  <p className="text-muted-foreground">
-                    You can select a maximum of 7 players from any single team to ensure fair competition.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                      <TrendingUp className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-foreground">Edit Before Match</h3>
-                  </div>
-                  <p className="text-muted-foreground">
-                    You can edit your team anytime before the match starts. Once the match begins, teams are locked.
-                  </p>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </section>
 
-        {/* Points System */}
-        <section className="py-16 container">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Fantasy Points System</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-muted">
-                  <th className="text-left p-4 text-foreground font-semibold">Category</th>
-                  <th className="text-left p-4 text-foreground font-semibold">Action</th>
-                  <th className="text-right p-4 text-foreground font-semibold">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pointsSystem.map((item, index) => (
-                  <tr key={index} className="border-b border-border">
-                    <td className="p-4">
-                      <Badge variant={
-                        item.category === "Batting" ? "default" :
-                        item.category === "Bowling" ? "secondary" :
-                        item.category === "Fielding" ? "outline" : "destructive"
-                      }>
-                        {item.category}
-                      </Badge>
-                    </td>
-                    <td className="p-4 text-muted-foreground">{item.action}</td>
-                    <td className="p-4 text-right font-semibold text-primary">{item.points}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* Team Building Section */}
+        <section className="py-20 px-4 bg-slate-50">
+          <div className="container max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+                Team <span className="text-teal-600">Building</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Master the art of building a winning fantasy cricket team
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-12">
+              <div className="space-y-6">
+                <div className="bg-white p-6 rounded-xl shadow-lg">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-3">Budget Management</h3>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    You have a total budget of 100 credits to build your 11-player team. Each player has a credit cost based on their performance history and current form. Allocate your budget wisely to get the best players within your constraints.
+                  </p>
+                  <div className="bg-teal-50 p-4 rounded-lg border-l-4 border-teal-500">
+                    <p className="text-sm font-semibold text-slate-900 mb-2">Budget Breakdown Example:</p>
+                    <p className="text-sm text-gray-600">
+                      Star players: 9-10.5 CR | Good performers: 8-9 CR | Emerging talents: 7-8 CR | Budget options: 6-7 CR
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-lg">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-3">Player Roles</h3>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Build a balanced team with different player roles. Each role contributes differently to your fantasy points.
+                  </p>
+                  <div className="space-y-3">
+                    <div className="flex gap-3">
+                      <span className="text-2xl">🏏</span>
+                      <div>
+                        <p className="font-semibold text-slate-900">Batsmen</p>
+                        <p className="text-sm text-gray-600">Score runs and earn points</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      <span className="text-2xl">🎳</span>
+                      <div>
+                        <p className="font-semibold text-slate-900">Bowlers</p>
+                        <p className="text-sm text-gray-600">Take wickets and earn points</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      <span className="text-2xl">⚡</span>
+                      <div>
+                        <p className="font-semibold text-slate-900">All-Rounders</p>
+                        <p className="text-sm text-gray-600">Bat and bowl, earn from both</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      <span className="text-2xl">🧤</span>
+                      <div>
+                        <p className="font-semibold text-slate-900">Wicket-Keeper</p>
+                        <p className="text-sm text-gray-600">Bat and field, earn from both</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <img src="/howtoplay-teambuilder.jpg" alt="Team Builder Interface" className="rounded-xl shadow-2xl w-full" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-white p-8 rounded-xl shadow-lg">
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">Captain Selection</h3>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Your captain earns 2x points for all their actions. This is a crucial decision that can make or break your fantasy team. Choose a player who:
+                </p>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex gap-2">
+                    <span className="text-teal-600 font-bold">✓</span>
+                    <span>Is in excellent form and confidence</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-teal-600 font-bold">✓</span>
+                    <span>Has a favorable matchup against the opposition</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-teal-600 font-bold">✓</span>
+                    <span>Is likely to play the full match</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-teal-600 font-bold">✓</span>
+                    <span>Has a history of big performances</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-white p-8 rounded-xl shadow-lg">
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">Vice-Captain Selection</h3>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Your vice-captain earns 1.5x points for all their actions. Choose a reliable performer who:
+                </p>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex gap-2">
+                    <span className="text-coral-600 font-bold">✓</span>
+                    <span>Is a consistent performer</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-coral-600 font-bold">✓</span>
+                    <span>Complements your captain's strengths</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-coral-600 font-bold">✓</span>
+                    <span>Has good form in recent matches</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-coral-600 font-bold">✓</span>
+                    <span>Is likely to play the full match</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Tips Section */}
-        <section className="py-16 bg-muted/30">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-foreground text-center mb-12">Pro Tips for Success</h2>
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              <div className="flex gap-4">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold flex-shrink-0">
-                  1
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">Research Player Form</h3>
-                  <p className="text-muted-foreground">Check recent performances, pitch conditions, and head-to-head records before selecting players.</p>
+        {/* Scoring System Section */}
+        <section className="py-20 px-4 bg-white">
+          <div className="container max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+                Fantasy Points <span className="text-teal-600">System</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Understand how fantasy points are calculated for each player action
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              <div className="bg-gradient-to-br from-teal-50 to-emerald-50 p-8 rounded-xl border-t-4 border-teal-500">
+                <h3 className="text-2xl font-bold text-slate-900 mb-6">Batting Points</h3>
+                <div className="space-y-4">
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Runs Scored</span>
+                      <span className="text-teal-600 font-bold">1 point/run</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Every run scored adds 1 point to your player's total</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Half-Century (50 runs)</span>
+                      <span className="text-teal-600 font-bold">+10 bonus</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Milestone bonus for reaching 50 runs</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Century (100 runs)</span>
+                      <span className="text-teal-600 font-bold">+25 bonus</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Major milestone bonus for reaching 100 runs</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Double Century (200 runs)</span>
+                      <span className="text-teal-600 font-bold">+50 bonus</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Exceptional performance bonus</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Duck (0 runs)</span>
+                      <span className="text-red-600 font-bold">-2 penalty</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Penalty for getting out without scoring</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold flex-shrink-0">
-                  2
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">Pick In-Form All-Rounders</h3>
-                  <p className="text-muted-foreground">All-rounders can earn points from both batting and bowling, giving you more scoring opportunities.</p>
+
+              <div className="bg-gradient-to-br from-coral-50 to-orange-50 p-8 rounded-xl border-t-4 border-coral-500">
+                <h3 className="text-2xl font-bold text-slate-900 mb-6">Bowling Points</h3>
+                <div className="space-y-4">
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Per Wicket</span>
+                      <span className="text-coral-600 font-bold">25 points</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Each wicket taken earns 25 points</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">3-Wicket Haul</span>
+                      <span className="text-coral-600 font-bold">+10 bonus</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Bonus for taking 3 wickets in an innings</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">5-Wicket Haul</span>
+                      <span className="text-coral-600 font-bold">+25 bonus</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Major bonus for taking 5 wickets in an innings</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Maiden Overs</span>
+                      <span className="text-coral-600 font-bold">+5 points</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Bonus for bowling an over without conceding runs</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Economy Rate Bonus</span>
+                      <span className="text-coral-600 font-bold">+5 to +15</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Bonus based on economy rate (runs conceded per over)</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold flex-shrink-0">
-                  3
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">Consider Pitch Conditions</h3>
-                  <p className="text-muted-foreground">Batting-friendly pitches favor batsmen; spin-friendly tracks favor spinners. Adjust your team accordingly.</p>
+
+              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 p-8 rounded-xl border-t-4 border-emerald-500">
+                <h3 className="text-2xl font-bold text-slate-900 mb-6">Fielding Points</h3>
+                <div className="space-y-4">
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Catches</span>
+                      <span className="text-emerald-600 font-bold">10 points</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Each catch taken earns 10 points</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Stumpings</span>
+                      <span className="text-emerald-600 font-bold">15 points</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Each stumping earns 15 points (wicket-keeper bonus)</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Run-Outs</span>
+                      <span className="text-emerald-600 font-bold">10 points</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Each run-out contribution earns 10 points</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Direct Run-Out</span>
+                      <span className="text-emerald-600 font-bold">+5 bonus</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Bonus for directly running out a batsman</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold flex-shrink-0">
-                  4
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">Choose Captain Wisely</h3>
-                  <p className="text-muted-foreground">Your captain gets 2x points. Pick a consistent performer who's likely to have a big impact.</p>
+
+              <div className="bg-gradient-to-br from-orange-50 to-coral-50 p-8 rounded-xl border-t-4 border-orange-500">
+                <h3 className="text-2xl font-bold text-slate-900 mb-6">Multipliers</h3>
+                <div className="space-y-4">
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Captain</span>
+                      <span className="text-orange-600 font-bold text-2xl">2x</span>
+                    </div>
+                    <p className="text-sm text-gray-600">All points earned by your captain are doubled</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Vice-Captain</span>
+                      <span className="text-orange-600 font-bold text-2xl">1.5x</span>
+                    </div>
+                    <p className="text-sm text-gray-600">All points earned by your vice-captain are multiplied by 1.5</p>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 px-4 bg-gradient-to-r from-teal-600 to-emerald-600">
+          <div className="container max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Ready to Build Your Team?
+            </h2>
+            <p className="text-xl text-teal-100 mb-8 leading-relaxed">
+              Now that you understand how to play, it's time to create your first fantasy cricket team and start competing!
+            </p>
+            <button className="bg-white text-teal-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg transition">
+              Create Your Team Now
+            </button>
           </div>
         </section>
       </main>
