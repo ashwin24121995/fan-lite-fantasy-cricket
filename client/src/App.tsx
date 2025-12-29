@@ -5,31 +5,41 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Matches from "./pages/Matches";
+import MatchDetails from "./pages/MatchDetails";
+import CreateTeam from "./pages/CreateTeam";
+import Dashboard from "./pages/Dashboard";
+import MyTeams from "./pages/MyTeams";
+import MyContests from "./pages/MyContests";
+import ContestDetails from "./pages/ContestDetails";
+import Leaderboard from "./pages/Leaderboard";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
+      <Route path="/" component={Home} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/matches" component={Matches} />
+      <Route path="/match/:matchId" component={MatchDetails} />
+      <Route path="/match/:matchId/create-team" component={CreateTeam} />
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/my-teams" component={MyTeams} />
+      <Route path="/my-contests" component={MyContests} />
+      <Route path="/contest/:contestId" component={ContestDetails} />
+      <Route path="/contest/:contestId/leaderboard" component={Leaderboard} />
+      <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="dark" switchable>
         <TooltipProvider>
           <Toaster />
           <Router />
