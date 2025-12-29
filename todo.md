@@ -196,3 +196,11 @@
 - [x] Fix logo not displaying in header on production site - Replaced with new F logo
 - [x] Fix contests not showing on production site - Created 4 contests via cron API
 - [x] Seed script automatically runs during Railway deployment - 8 contests created successfully
+
+## Deployment Health Check Failure (Current Issue)
+- [ ] Diagnose health check failure on Railway
+- [ ] Fix server startup issues
+- [ ] Ensure /health endpoint responds correctly
+- [ ] Test deployment locally
+- [ ] Push fixes to GitHub
+- [ ] Verify production deployment is healthy
