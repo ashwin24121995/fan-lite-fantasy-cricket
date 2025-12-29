@@ -102,3 +102,10 @@
 - [x] Match Contests page (/match/:id/contests)
 - [x] Update Footer with all new page links
 - [x] Update App.tsx with all new routes
+
+## Railway Deployment
+- [x] Create railway.json configuration file
+- [x] Create README.md with deployment instructions
+- [ ] Update database connection for Railway MySQL
+- [ ] Push changes to GitHub
+- [ ] Provide deployment instructions
