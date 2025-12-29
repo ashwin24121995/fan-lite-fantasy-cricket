@@ -88,3 +88,17 @@
 - [x] Fix score object rendering error on /matches page (CricAPI returns score as object with r,w,o,inning keys)
 - [x] Add all page links to Navbar (Home, Matches, Dashboard, My Teams, My Contests, Leaderboard)
 - [x] Add all page links to Footer navigation
+
+## Missing Pages (from PDF Guide Part 9)
+- [x] About Us page (/about)
+- [x] How to Play page (/how-to-play)
+- [x] FAQ page (/faq)
+- [x] Contact Us page (/contact)
+- [x] Terms of Service page (/terms)
+- [x] Privacy Policy page (/privacy)
+- [x] Fair Play Policy page (/fair-play)
+- [x] Responsible Gaming page (/responsible-gaming)
+- [x] Live Scores page (/live-scores/:id)
+- [x] Match Contests page (/match/:id/contests)
+- [x] Update Footer with all new page links
+- [x] Update App.tsx with all new routes
