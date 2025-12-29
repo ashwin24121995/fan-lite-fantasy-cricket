@@ -6,9 +6,10 @@ cmds = ["npm install -g corepack@0.24.1 && corepack enable pnpm", "pnpm i --froz
 
 [phases.build]
 cmds = [
-  "echo '=== Building application ===' && pnpm run build && echo '✅ Build successful' || (echo '❌ Build failed' && exit 1)",
-  "echo '=== Seeding contests ===' && pnpm seed:contests && echo '✅ Seeding successful' || echo '⚠️  Seeding skipped (will run on startup)'"
+  "pnpm run build",
+  "ls -la dist/",
+  "pnpm seed:contests || echo 'Seeding skipped'"
 ]
 
 [start]
-cmd = "pnpm start"
+cmd = "node dist/index.js"

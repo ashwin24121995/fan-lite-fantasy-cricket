@@ -237,4 +237,4 @@
 - [x] Check if /information route is registered in App.tsx
 - [x] Add route if missing - Added Information and AboutUs imports and routes
 - [x] Test locally - Page loads correctly on dev server
-- [ ] Push to GitHub
+- [x] Push to GitHub - Commit ade1471
