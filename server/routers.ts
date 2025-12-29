@@ -30,6 +30,59 @@ async function fetchCricAPI(endpoint: string, params: Record<string, string> = {
   return data;
 }
 
+// Get active series IDs from current matches
+async function getActiveSeriesIds(): Promise<string[]> {
+  try {
+    const data = await fetchCricAPI("currentMatches");
+    const matches = data.data || [];
+    const seriesIds = new Set<string>();
+    matches.forEach((match: any) => {
+      if (match.series_id) {
+        seriesIds.add(match.series_id);
+      }
+    });
+    return Array.from(seriesIds);
+  } catch {
+    return [];
+  }
+}
+
+// Fetch upcoming matches from active series
+async function fetchUpcomingMatches(): Promise<any[]> {
+  const seriesIds = await getActiveSeriesIds();
+  const upcomingMatches: any[] = [];
+  
+  // Limit to first 3 series to avoid too many API calls
+  for (const seriesId of seriesIds.slice(0, 3)) {
+    try {
+      const data = await fetchCricAPI("series_info", { id: seriesId });
+      const matchList = data.data?.matchList || [];
+      
+      // Filter for upcoming matches (not started yet)
+      const upcoming = matchList.filter((match: any) => 
+        match.matchStarted === false && match.matchEnded === false
+      );
+      
+      // Add series info to each match
+      upcoming.forEach((match: any) => {
+        match.seriesName = data.data?.info?.name;
+        upcomingMatches.push(match);
+      });
+    } catch (error) {
+      console.error(`Failed to fetch series ${seriesId}:`, error);
+    }
+  }
+  
+  // Sort by date ascending (soonest first)
+  upcomingMatches.sort((a, b) => {
+    const dateA = new Date(a.dateTimeGMT || a.date);
+    const dateB = new Date(b.dateTimeGMT || b.date);
+    return dateA.getTime() - dateB.getTime();
+  });
+  
+  return upcomingMatches;
+}
+
 export const appRouter = router({
   system: systemRouter,
   
@@ -53,9 +106,42 @@ export const appRouter = router({
 
   // Cricket matches from CricAPI
   matches: router({
+    // Get current matches (live and recently completed)
     getCurrent: publicProcedure.query(async () => {
       const data = await fetchCricAPI("currentMatches");
       return data.data || [];
+    }),
+    
+    // Get upcoming matches from active series
+    getUpcoming: publicProcedure.query(async () => {
+      return await fetchUpcomingMatches();
+    }),
+    
+    // Get all matches combined (current + upcoming)
+    getAll: publicProcedure.query(async () => {
+      const [currentData, upcomingMatches] = await Promise.all([
+        fetchCricAPI("currentMatches"),
+        fetchUpcomingMatches(),
+      ]);
+      
+      const currentMatches = currentData.data || [];
+      
+      // Combine and deduplicate by ID
+      const matchMap = new Map<string, any>();
+      
+      // Add current matches first
+      currentMatches.forEach((match: any) => {
+        matchMap.set(match.id, match);
+      });
+      
+      // Add upcoming matches (won't overwrite existing)
+      upcomingMatches.forEach((match: any) => {
+        if (!matchMap.has(match.id)) {
+          matchMap.set(match.id, match);
+        }
+      });
+      
+      return Array.from(matchMap.values());
     }),
     
     getMatch: publicProcedure
@@ -262,6 +348,75 @@ export const appRouter = router({
         });
         return { contestId };
       }),
+    
+    // Seed contests for a match (creates default free contests)
+    seed: protectedProcedure
+      .input(z.object({ matchId: z.string() }))
+      .mutation(async ({ ctx, input }) => {
+        // Check if contests already exist for this match
+        const existingContests = await db.getContestsByMatch(input.matchId);
+        if (existingContests.length > 0) {
+          return { message: "Contests already exist for this match", contestIds: existingContests.map(c => c.id) };
+        }
+        
+        // Create default free contests
+        const defaultContests = [
+          { name: "Mega Contest", description: "The biggest free contest! Compete with thousands of players.", maxEntries: 10000, prizeDescription: "Top 10% win bragging rights!" },
+          { name: "Head to Head", description: "1v1 battle - prove you're the best!", maxEntries: 2, prizeDescription: "Winner takes all glory!" },
+          { name: "Small League", description: "Perfect for beginners and casual players.", maxEntries: 10, prizeDescription: "Top 3 positions rewarded!" },
+          { name: "Winners Circle", description: "For the competitive players.", maxEntries: 100, prizeDescription: "Top 10 positions rewarded!" },
+        ];
+        
+        const contestIds: number[] = [];
+        for (const contest of defaultContests) {
+          const contestId = await db.createContest({
+            matchId: input.matchId,
+            name: contest.name,
+            description: contest.description,
+            maxEntries: contest.maxEntries,
+            prizeDescription: contest.prizeDescription,
+          });
+          contestIds.push(contestId);
+        }
+        
+        return { message: "Contests seeded successfully", contestIds };
+      }),
+    
+    // Sync contest status with match status
+    sync: publicProcedure.mutation(async () => {
+      // Get all upcoming contests
+      const allContests = await db.getAllContests();
+      let updated = 0;
+      
+      for (const contest of allContests) {
+        try {
+          // Fetch match info from CricAPI
+          const matchData = await fetchCricAPI("match_info", { id: contest.matchId });
+          const match = matchData.data;
+          
+          if (!match) continue;
+          
+          let newStatus = contest.status;
+          
+          if (match.matchEnded) {
+            newStatus = "completed";
+          } else if (match.matchStarted) {
+            newStatus = "live";
+          } else {
+            newStatus = "upcoming";
+          }
+          
+          if (newStatus !== contest.status) {
+            await db.updateContestStatus(contest.id, newStatus);
+            updated++;
+          }
+        } catch (error) {
+          console.error(`Failed to sync contest ${contest.id}:`, error);
+        }
+      }
+      
+      return { message: `Synced ${updated} contests`, updated };
+    }),
   }),
 
   // Dashboard

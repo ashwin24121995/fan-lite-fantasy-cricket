@@ -127,3 +127,12 @@
 - [x] Redesign Homepage with more images per section
 - [x] Ensure images don't overlap content and vice versa
 - [x] Push changes to GitHub and verify deployment
+
+## Bug Fixes - Matches Page
+- [x] Fix Live Now column not showing live matches
+- [x] Fix Upcoming column not showing upcoming matches
+- [x] Review match categorization logic (Past/Present/Future)
+- [x] Added getAll endpoint to fetch both current and upcoming matches
+- [x] Added getUpcoming endpoint to fetch upcoming matches from active series
+- [x] Added contest seeding API (contests.seed)
+- [x] Added contest sync API (contests.sync)

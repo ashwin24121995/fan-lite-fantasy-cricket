@@ -52,15 +52,35 @@ function categorizeMatches(matches: any[]) {
   const future: any[] = [];
 
   matches.forEach((match) => {
-    const isLive = match.matchStarted && !match.matchEnded;
-    const isCompleted = match.matchEnded || match.status?.toLowerCase().includes("completed") || match.status?.toLowerCase().includes("result");
+    // Check explicit flags from API
+    const matchStarted = match.matchStarted === true;
+    const matchEnded = match.matchEnded === true;
     
-    if (isLive) {
-      live.push(match);
-    } else if (isCompleted) {
+    // Check status string for additional context
+    const status = (match.status || "").toLowerCase();
+    const isCompletedByStatus = status.includes("won") || status.includes("draw") || 
+                                 status.includes("tied") || status.includes("no result") || 
+                                 status.includes("abandoned") || status.includes("result");
+    const isLiveByStatus = status.includes("live") || status.includes("innings break") || 
+                           status.includes("day ") || status.includes("session");
+    const isUpcomingByStatus = status.includes("starts at") || status === "";
+    
+    // Determine category
+    if (matchEnded || isCompletedByStatus) {
       past.push(match);
-    } else {
+    } else if ((matchStarted && !matchEnded) || isLiveByStatus) {
+      live.push(match);
+    } else if (!matchStarted || isUpcomingByStatus) {
+      // Not started yet = upcoming
       future.push(match);
+    } else {
+      // Fallback: check date
+      const matchDate = getISTDate(match.dateTimeGMT || match.date);
+      if (matchDate && matchDate > now) {
+        future.push(match);
+      } else {
+        past.push(match);
+      }
     }
   });
 
@@ -231,7 +251,7 @@ function MatchColumn({
 }
 
 export default function Matches() {
-  const { data: matches, isLoading, error, refetch } = trpc.matches.getCurrent.useQuery(undefined, {
+  const { data: matches, isLoading, error, refetch } = trpc.matches.getAll.useQuery(undefined, {
     refetchInterval: 30000, // Refetch every 30 seconds for live updates
   });
 

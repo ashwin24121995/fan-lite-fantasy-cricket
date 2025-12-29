@@ -179,6 +179,13 @@ export async function getContestById(contestId: number) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+export async function getAllContests() {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(contests).orderBy(desc(contests.createdAt));
+}
+
 export async function updateContestStatus(contestId: number, status: 'upcoming' | 'live' | 'completed') {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
