@@ -193,5 +193,5 @@
 
 
 ## Production Issues (User Report)
-- [ ] Fix logo not displaying in header on production site
-- [ ] Fix contests not showing on production site
+- [x] Fix logo not displaying in header on production site - Replaced with new F logo
+- [x] Fix contests not showing on production site - Created 4 contests via cron API
