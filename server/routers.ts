@@ -431,6 +431,10 @@ export const appRouter = router({
 
   // Contests
   contests: router({
+    getAll: publicProcedure.query(async () => {
+      return await db.getAllContests();
+    }),
+    
     getByMatch: publicProcedure
       .input(z.object({ matchId: z.string() }))
       .query(async ({ input }) => {

@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO contests (matchId, name, description, maxEntries, currentEntries, status, prizeDescription, createdAt, updatedAt) VALUES \n('t20_match_1', 'Free Contest 1', 'Join and compete for glory', 100, 25, 'upcoming', 'Bragging Rights', NOW(), NOW()),\n('t20_match_1', 'Pro Contest', 'Advanced players only', 50, 18, 'upcoming', 'Top Prize', NOW(), NOW()),\n('t20_match_1', 'Mega Contest', 'Biggest prize pool', 200, 85, 'upcoming', 'Grand Prize', NOW(), NOW()),\n('t20_match_1', 'Quick Play', 'Fast-paced contest', 75, 42, 'upcoming', 'Quick Rewards', NOW(), NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user Hbsm33TssSr3JiD.ee47f8de7d6d --database 5HrszpY2xMbZZtT4Gdo5is --execute INSERT INTO contests (matchId, name, description, maxEntries, currentEntries, status, prizeDescription, createdAt, updatedAt) VALUES \n('t20_match_1', 'Free Contest 1', 'Join and compete for glory', 100, 25, 'upcoming', 'Bragging Rights', NOW(), NOW()),\n('t20_match_1', 'Pro Contest', 'Advanced players only', 50, 18, 'upcoming', 'Top Prize', NOW(), NOW()),\n('t20_match_1', 'Mega Contest', 'Biggest prize pool', 200, 85, 'upcoming', 'Grand Prize', NOW(), NOW()),\n('t20_match_1', 'Quick Play', 'Fast-paced contest', 75, 42, 'upcoming', 'Quick Rewards', NOW(), NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1532
+}

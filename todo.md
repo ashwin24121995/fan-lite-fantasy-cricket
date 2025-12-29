@@ -180,3 +180,6 @@
 - [x] Update header to use logo only (removed text)
 - [x] Update footer to use logo only (removed text)
 - [x] Fix missing hero carousel images - use existing webp images from public folder
+
+## Current Issues
+- [x] Fix Join Contests section not displaying on homepage - Now fetches all contests from API

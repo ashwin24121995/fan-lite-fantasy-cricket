@@ -108,12 +108,7 @@ function HeroCarousel() {
 
 // Contests Section Component
 function ContestsSection() {
-  const { data: matches } = trpc.matches.getAll.useQuery(undefined, { refetchInterval: 30000 });
-  const upcomingMatch = matches?.[0];
-  const { data: contests, isLoading: contestsLoading } = trpc.contests.getByMatch.useQuery(
-    { matchId: upcomingMatch?.id || "" },
-    { enabled: !!upcomingMatch?.id, refetchInterval: 30000 }
-  );
+  const { data: contests, isLoading: contestsLoading } = trpc.contests.getAll.useQuery(undefined, { refetchInterval: 30000 });
 
   if (contestsLoading) {
     return (
