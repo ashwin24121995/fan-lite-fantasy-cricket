@@ -5,12 +5,190 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useState, useEffect } from "react";
 import { 
   Trophy, Users, Star, Calendar, ArrowRight, 
-  Shield, Target, Zap, ChevronRight, Clock, Radio
+  Shield, Target, Zap, ChevronRight, Clock, Radio,
+  TrendingUp, Play, Sparkles, Crown, Medal
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+// Feature showcase data with badges
+const featureShowcases = [
+  {
+    image: "/section-team-new.png",
+    badge: { icon: Users, title: "Join Now", subtitle: "Free Forever" },
+    animation: "animate-float"
+  },
+  {
+    image: "/feature-showcase-1.png",
+    badge: { icon: TrendingUp, title: "Live Stats", subtitle: "Real-Time Updates" },
+    animation: "animate-pulse-slow"
+  },
+  {
+    image: "/feature-showcase-2.png",
+    badge: { icon: Play, title: "Play Now", subtitle: "No Downloads" },
+    animation: "animate-bounce-slow"
+  },
+  {
+    image: "/feature-showcase-3.png",
+    badge: { icon: Crown, title: "Top Rankings", subtitle: "Compete & Win" },
+    animation: "animate-float"
+  },
+  {
+    image: "/feature-showcase-4.png",
+    badge: { icon: Trophy, title: "Champions", subtitle: "Glory Awaits" },
+    animation: "animate-pulse-slow"
+  },
+  {
+    image: "/feature-showcase-5.png",
+    badge: { icon: Radio, title: "Live Scores", subtitle: "Ball by Ball" },
+    animation: "animate-bounce-slow"
+  },
+  {
+    image: "/feature-showcase-6.png",
+    badge: { icon: Target, title: "Team Builder", subtitle: "Build Your XI" },
+    animation: "animate-float"
+  }
+];
+
+// Hero Carousel Component
+function HeroCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % featureShowcases.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+  
+  const current = featureShowcases[currentIndex];
+  const BadgeIcon = current.badge.icon;
+  
+  return (
+    <div className="relative">
+      <div className="image-section rounded-3xl overflow-hidden shadow-2xl transition-all duration-700">
+        <img 
+          src={current.image} 
+          alt="Feature"
+          className={`w-full h-auto object-cover ${current.animation}`}
+          style={{ minHeight: '400px', maxHeight: '500px' }}
+        />
+      </div>
+      {/* Floating badge with animation */}
+      <div className={`absolute -bottom-4 -left-4 glass p-4 rounded-2xl shadow-xl ${current.animation}`}>
+        <div className="flex items-center gap-3">
+          <div className="h-12 w-12 rounded-xl gradient-teal flex items-center justify-center">
+            <BadgeIcon className="h-6 w-6 text-primary-foreground" />
+          </div>
+          <div>
+            <p className="font-bold">{current.badge.title}</p>
+            <p className="text-sm text-muted-foreground">{current.badge.subtitle}</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Indicator dots */}
+      <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 flex gap-2">
+        {featureShowcases.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              index === currentIndex ? 'w-6 bg-primary' : 'w-2 bg-muted-foreground/30'
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Contests Section Component
+function ContestsSection() {
+  const { data: matches } = trpc.matches.getAll.useQuery(undefined, { refetchInterval: 30000 });
+  const upcomingMatch = matches?.[0];
+  const { data: contests, isLoading: contestsLoading } = trpc.contests.getByMatch.useQuery(
+    { matchId: upcomingMatch?.id || "" },
+    { enabled: !!upcomingMatch?.id, refetchInterval: 30000 }
+  );
+
+  if (contestsLoading) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[1, 2, 3, 4].map((i) => (
+          <Skeleton key={i} className="h-64 w-full rounded-xl" />
+        ))}
+      </div>
+    );
+  }
+
+  if (!contests || contests.length === 0) {
+    return (
+      <Card className="text-center py-16">
+        <CardContent>
+          <Trophy className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+          <h3 className="text-xl font-semibold mb-2">No Contests Available</h3>
+          <p className="text-muted-foreground">Contests will be created when matches are available!</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {contests.slice(0, 4).map((contest: any) => (
+        <Card key={contest.id} className="cricket-card overflow-hidden hover:shadow-lg transition-all duration-300 group">
+          <CardContent className="p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <Badge variant={contest.status === "live" ? "destructive" : contest.status === "completed" ? "secondary" : "default"} className="text-xs">
+                {contest.status === "live" ? (
+                  <span className="flex items-center gap-1">
+                    <Radio className="h-3 w-3 animate-pulse" />
+                    LIVE
+                  </span>
+                ) : contest.status.toUpperCase()}
+              </Badge>
+              <div className="flex items-center gap-1">
+                <Users className="h-3 w-3 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">{contest.currentEntries || 0}/{contest.maxEntries}</span>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="font-bold text-base group-hover:text-primary transition-colors">{contest.name}</h3>
+            </div>
+            
+            <p className="text-xs text-muted-foreground line-clamp-2">{contest.description}</p>
+            
+            {/* Progress bar */}
+            <div className="space-y-1">
+              <div className="h-2 bg-muted rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500"
+                  style={{ width: `${((contest.currentEntries || 0) / contest.maxEntries) * 100}%` }}
+                />
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-muted-foreground">{contest.maxEntries - (contest.currentEntries || 0)} spots left</span>
+                <span className="text-primary font-medium">{contest.prizeDescription}</span>
+              </div>
+            </div>
+            
+            <Button asChild size="sm" className="w-full" variant={contest.status === "upcoming" ? "default" : "outline"}>
+              <Link href={`/contest/${contest.id}`}>
+                {contest.status === "upcoming" ? "Join Contest" : "View Details"}
+                <ChevronRight className="h-4 w-4 ml-1" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
 
 // Convert GMT to IST
 function convertToIST(dateString: string | undefined): string {
@@ -252,29 +430,9 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Right Image */}
+            {/* Right Image - Auto-rotating Carousel */}
             <div className="hidden lg:block">
-              <div className="relative">
-                <div className="image-section rounded-3xl overflow-hidden shadow-2xl">
-                  <img 
-                    src="/section-team.webp" 
-                    alt="Fantasy Team"
-                    className="w-full h-auto"
-                  />
-                </div>
-                {/* Floating badge */}
-                <div className="absolute -bottom-4 -left-4 glass p-4 rounded-2xl shadow-xl">
-                  <div className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-xl gradient-teal flex items-center justify-center">
-                      <Users className="h-6 w-6 text-primary-foreground" />
-                    </div>
-                    <div>
-                      <p className="font-bold">Join Now</p>
-                      <p className="text-sm text-muted-foreground">Free Forever</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <HeroCarousel />
             </div>
           </div>
         </div>
@@ -318,6 +476,27 @@ export default function Home() {
               </CardContent>
             </Card>
           )}
+        </div>
+      </section>
+
+      {/* Contests Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+            <div>
+              <Badge variant="secondary" className="mb-3">Free Contests</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold">Join Contests</h2>
+              <p className="text-muted-foreground mt-2">Compete with cricket fans • Win bragging rights</p>
+            </div>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/contests">
+                View All Contests
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </Link>
+            </Button>
+          </div>
+          
+          <ContestsSection />
         </div>
       </section>
 

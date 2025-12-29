@@ -172,3 +172,10 @@
 - [x] Live score updates every 3 seconds (faster refresh for live matches)
 - [x] Add team logos to match cards
 - [x] Show team logos on homepage
+
+
+## Bug Fixes (User Report)
+- [x] Fix hero image carousel - badge and image change together automatically (4s interval)
+- [x] Fix Contest section to fetch contests from API (shows contests for upcoming matches)
+- [x] Update header to use logo only (removed text)
+- [x] Update footer to use logo only (removed text)
