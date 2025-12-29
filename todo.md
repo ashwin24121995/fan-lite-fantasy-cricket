@@ -238,3 +238,13 @@
 - [x] Add route if missing - Added Information and AboutUs imports and routes
 - [x] Test locally - Page loads correctly on dev server
 - [x] Push to GitHub - Commit ade1471
+
+## Remaining Pages to Build (Completed)
+- [x] Contact Us - contact form, support channels, office info, hero image
+- [x] Terms of Service - comprehensive legal content with 12 sections
+- [x] Privacy Policy - data protection information with 12 sections
+- [x] Fair Play Policy - rules and guidelines with 8 sections
+- [x] Responsible Gaming - resources and support with hero image
+- [x] Add routes for all new pages (with aliases)
+- [x] Update footer links (already correct)
+- [ ] Push to GitHub

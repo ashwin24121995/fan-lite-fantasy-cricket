@@ -30,9 +30,13 @@ import AboutUs from "./pages/AboutUs";
 import HowToPlay from "./pages/HowToPlay";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
+import ContactUs from "./pages/ContactUs";
 import Terms from "./pages/Terms";
+import TermsOfService from "./pages/TermsOfService";
 import Privacy from "./pages/Privacy";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import FairPlay from "./pages/FairPlay";
+import FairPlayPolicy from "./pages/FairPlayPolicy";
 import ResponsibleGaming from "./pages/ResponsibleGaming";
 
 function Router() {
@@ -57,12 +61,17 @@ function Router() {
       {/* Informational Routes */}
       <Route path="/information" component={Information} />
       <Route path="/about" component={AboutUs} />
+      <Route path="/about-us" component={AboutUs} />
       <Route path="/how-to-play" component={HowToPlay} />
       <Route path="/faq" component={FAQ} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/terms" component={Terms} />
-      <Route path="/privacy" component={Privacy} />
-      <Route path="/fair-play" component={FairPlay} />
+      <Route path="/contact" component={ContactUs} />
+      <Route path="/contact-us" component={ContactUs} />
+      <Route path="/terms" component={TermsOfService} />
+      <Route path="/terms-of-service" component={TermsOfService} />
+      <Route path="/privacy" component={PrivacyPolicy} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/fair-play" component={FairPlayPolicy} />
+      <Route path="/fair-play-policy" component={FairPlayPolicy} />
       <Route path="/responsible-gaming" component={ResponsibleGaming} />
       
       {/* Fallback Routes */}
