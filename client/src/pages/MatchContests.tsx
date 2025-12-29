@@ -221,7 +221,7 @@ export default function MatchContests() {
             <CardContent className="p-6">
               <h3 className="font-semibold text-foreground mb-2">About Free Contests</h3>
               <p className="text-muted-foreground text-sm">
-                All contests on Fan Lite Fantasy Cricket are completely free to join. There are no entry fees or monetary stakes. 
+                All contests on Fan Lite Play are completely free to join. There are no entry fees or monetary stakes. 
                 Compete with other cricket fans, test your skills, and climb the leaderboard—all for free! 
                 This is a game of skill. Play responsibly.
               </p>

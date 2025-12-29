@@ -55,7 +55,7 @@ export default function Login() {
         <Card className="w-full max-w-md cricket-card">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-4">
-              <img src="/logo.webp" alt="Fan Lite Fantasy Cricket" className="h-16 w-auto" />
+              <img src="/logo.webp" alt="Fan Lite Play" className="h-16 w-auto" />
             </div>
             <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
             <CardDescription>

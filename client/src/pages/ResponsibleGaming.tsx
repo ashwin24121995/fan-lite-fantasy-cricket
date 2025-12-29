@@ -15,7 +15,7 @@ export default function ResponsibleGaming() {
               Responsible <span className="text-primary">Gaming</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl">
-              At Fan Lite Fantasy Cricket, we believe in promoting healthy gaming habits. While our platform is free to play, we encourage all users to game responsibly.
+              At Fan Lite Play, we believe in promoting healthy gaming habits. While our platform is free to play, we encourage all users to game responsibly.
             </p>
           </div>
         </section>
@@ -219,7 +219,7 @@ export default function ResponsibleGaming() {
         <section className="py-8 container">
           <div className="max-w-4xl mx-auto text-center">
             <p className="text-sm text-muted-foreground">
-              <strong className="text-foreground">Disclaimer:</strong> This is a game of skill. Play responsibly. Fan Lite Fantasy Cricket is intended for users 18 years and above residing in India.
+              <strong className="text-foreground">Disclaimer:</strong> This is a game of skill. Play responsibly. Fan Lite Play is intended for users 18 years and above residing in India.
             </p>
           </div>
         </section>

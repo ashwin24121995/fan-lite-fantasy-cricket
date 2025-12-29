@@ -85,7 +85,7 @@ export default function Home() {
               100% Free to Play
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Fan Lite Fantasy Cricket
+              Fan Lite Play
             </h1>
             <p className="text-xl md:text-2xl mb-4 text-gray-200">
               EntertainmentLimitless
@@ -217,7 +217,7 @@ export default function Home() {
       <section className="py-16 bg-muted/30">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">Why Fan Lite?</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Why Fan Lite Play?</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               The ultimate fantasy cricket experience for Indian cricket fans
             </p>

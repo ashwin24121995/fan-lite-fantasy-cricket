@@ -12,7 +12,7 @@ export default function About() {
         <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 py-16">
           <div className="container">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              About <span className="text-primary">Fan Lite Fantasy Cricket</span>
+              About <span className="text-primary">Fan Lite Play</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl">
               India's premier free-to-play fantasy cricket platform, bringing the excitement of cricket to millions of fans across the nation.
@@ -26,7 +26,7 @@ export default function About() {
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-6">Our Mission</h2>
               <p className="text-muted-foreground mb-4">
-                At Fan Lite Fantasy Cricket, we believe that every cricket fan deserves the thrill of building their dream team and competing with fellow enthusiasts—without any financial barriers.
+                At Fan Lite Play, we believe that every cricket fan deserves the thrill of building their dream team and competing with fellow enthusiasts—without any financial barriers.
               </p>
               <p className="text-muted-foreground mb-4">
                 Our platform is designed exclusively for Indian cricket fans who want to test their cricket knowledge, strategic thinking, and player analysis skills in a fun, engaging, and completely free environment.

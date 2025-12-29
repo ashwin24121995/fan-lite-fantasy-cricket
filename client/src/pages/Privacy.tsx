@@ -25,7 +25,7 @@ export default function Privacy() {
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">1. Introduction</h2>
                 <p>
-                  Fan Lite Fantasy Cricket ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform. Please read this policy carefully to understand our practices regarding your personal data.
+                  Fan Lite Play ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform. Please read this policy carefully to understand our practices regarding your personal data.
                 </p>
               </div>
 
@@ -152,7 +152,7 @@ export default function Privacy() {
                   If you have questions or concerns about this Privacy Policy or our data practices, please contact us at:
                 </p>
                 <p className="mt-2">
-                  <strong className="text-foreground">Website:</strong> www.FanLiteFantasyCricket.com
+                  <strong className="text-foreground">Website:</strong> www.fanliteplay.com
                 </p>
               </div>
             </div>

@@ -15,7 +15,7 @@ export default function FairPlay() {
               Fair Play <span className="text-primary">Policy</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl">
-              At Fan Lite Fantasy Cricket, we are committed to providing a fair, transparent, and enjoyable gaming experience for all users.
+              At Fan Lite Play, we are committed to providing a fair, transparent, and enjoyable gaming experience for all users.
             </p>
           </div>
         </section>

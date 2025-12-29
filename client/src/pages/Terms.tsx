@@ -25,14 +25,14 @@ export default function Terms() {
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">1. Acceptance of Terms</h2>
                 <p>
-                  By accessing and using Fan Lite Fantasy Cricket ("the Platform"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Platform. These terms apply to all users, including visitors, registered users, and contributors.
+                  By accessing and using Fan Lite Play ("the Platform"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Platform. These terms apply to all users, including visitors, registered users, and contributors.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">2. Eligibility</h2>
                 <p>
-                  To use Fan Lite Fantasy Cricket, you must:
+                  To use Fan Lite Play, you must:
                 </p>
                 <ul className="list-disc pl-6 mt-2 space-y-2">
                   <li>Be at least 18 years of age</li>
@@ -65,7 +65,7 @@ export default function Terms() {
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">4. Free-to-Play Model</h2>
                 <p>
-                  Fan Lite Fantasy Cricket is a free-to-play platform. We do not charge any entry fees, and there are no monetary prizes or rewards. The Platform is designed purely for entertainment and skill development. Any references to "winning" or "prizes" refer to rankings and achievements within the Platform, not monetary compensation.
+                  Fan Lite Play is a free-to-play platform. We do not charge any entry fees, and there are no monetary prizes or rewards. The Platform is designed purely for entertainment and skill development. Any references to "winning" or "prizes" refer to rankings and achievements within the Platform, not monetary compensation.
                 </p>
               </div>
 
@@ -96,7 +96,7 @@ export default function Terms() {
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">7. Intellectual Property</h2>
                 <p>
-                  All content on the Platform, including but not limited to text, graphics, logos, images, and software, is the property of Fan Lite Fantasy Cricket or its licensors and is protected by intellectual property laws. You may not copy, modify, distribute, or create derivative works without our express written permission.
+                  All content on the Platform, including but not limited to text, graphics, logos, images, and software, is the property of Fan Lite Play or its licensors and is protected by intellectual property laws. You may not copy, modify, distribute, or create derivative works without our express written permission.
                 </p>
               </div>
 
@@ -117,7 +117,7 @@ export default function Terms() {
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">10. Limitation of Liability</h2>
                 <p>
-                  To the maximum extent permitted by law, Fan Lite Fantasy Cricket shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the Platform.
+                  To the maximum extent permitted by law, Fan Lite Play shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the Platform.
                 </p>
               </div>
 
@@ -148,7 +148,7 @@ export default function Terms() {
                   For questions about these Terms of Service, please contact us at:
                 </p>
                 <p className="mt-2">
-                  <strong className="text-foreground">Website:</strong> www.FanLiteFantasyCricket.com
+                  <strong className="text-foreground">Website:</strong> www.fanliteplay.com
                 </p>
               </div>
             </div>

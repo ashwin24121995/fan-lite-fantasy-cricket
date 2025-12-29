@@ -111,4 +111,9 @@
 - [x] Provide deployment instructions
 
 ## Bug Fixes - Railway Deployment
-- [ ] Fix health check failure - application not starting on Railway
+- [x] Fix health check failure - application not starting on Railway (added /health endpoint)
+
+## Branding Update
+- [x] Update company name from "Fan Lite Fantasy Cricket" to "Fan Lite Play"
+- [x] Update domain from "FanLiteFantasyCricket.com" to "fanliteplay.com"
+- [x] Add company address to Contact and Footer pages

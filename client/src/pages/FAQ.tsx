@@ -13,8 +13,8 @@ export default function FAQ() {
       category: "Getting Started",
       questions: [
         {
-          q: "Is Fan Lite Fantasy Cricket really free to play?",
-          a: "Yes, absolutely! Fan Lite Fantasy Cricket is 100% free to play. There are no entry fees, no hidden charges, and no in-app purchases required. We believe fantasy cricket should be accessible to everyone."
+          q: "Is Fan Lite Play really free to play?",
+          a: "Yes, absolutely! Fan Lite Play is 100% free to play. There are no entry fees, no hidden charges, and no in-app purchases required. We believe fantasy cricket should be accessible to everyone."
         },
         {
           q: "How do I create an account?",
@@ -22,11 +22,11 @@ export default function FAQ() {
         },
         {
           q: "Do I need to download an app?",
-          a: "No, Fan Lite Fantasy Cricket is a web-based platform. You can access it from any device with a web browser—mobile, tablet, or desktop. No downloads required."
+          a: "No, Fan Lite Play is a web-based platform. You can access it from any device with a web browser—mobile, tablet, or desktop. No downloads required."
         },
         {
           q: "Is this platform only for Indian users?",
-          a: "Yes, Fan Lite Fantasy Cricket is designed specifically for Indian cricket fans. Our match timings are displayed in IST, and we focus on matches that are most relevant to Indian audiences."
+          a: "Yes, Fan Lite Play is designed specifically for Indian cricket fans. Our match timings are displayed in IST, and we focus on matches that are most relevant to Indian audiences."
         }
       ]
     },
@@ -85,15 +85,15 @@ export default function FAQ() {
         },
         {
           q: "What browsers are supported?",
-          a: "Fan Lite Fantasy Cricket works on all modern browsers including Chrome, Firefox, Safari, and Edge. For the best experience, we recommend using the latest version of your browser."
+          a: "Fan Lite Play works on all modern browsers including Chrome, Firefox, Safari, and Edge. For the best experience, we recommend using the latest version of your browser."
         },
         {
           q: "I forgot my password. How can I reset it?",
-          a: "Currently, please contact us through our website www.FanLiteFantasyCricket.com for password reset assistance. We're working on adding a self-service password reset feature."
+          a: "Currently, please contact us through our website www.fanliteplay.com for password reset assistance. We're working on adding a self-service password reset feature."
         },
         {
           q: "How can I report a bug or provide feedback?",
-          a: "We welcome your feedback! Please visit www.FanLiteFantasyCricket.com to report any issues or share your suggestions. Your input helps us improve the platform."
+          a: "We welcome your feedback! Please visit www.fanliteplay.com to report any issues or share your suggestions. Your input helps us improve the platform."
         }
       ]
     },
@@ -127,7 +127,7 @@ export default function FAQ() {
               Frequently Asked <span className="text-primary">Questions</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl">
-              Find answers to common questions about Fan Lite Fantasy Cricket. Can't find what you're looking for? Contact us!
+              Find answers to common questions about Fan Lite Play. Can't find what you're looking for? Contact us!
             </p>
           </div>
         </section>

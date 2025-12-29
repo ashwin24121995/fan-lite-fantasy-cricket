@@ -56,9 +56,9 @@ export default function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          <img src="/logo.webp" alt="Fan Lite" className="h-10 w-auto" />
+          <img src="/logo.webp" alt="Fan Lite Play" className="h-10 w-auto" />
           <span className="hidden sm:inline-block font-bold text-lg text-primary">
-            Fan Lite
+            Fan Lite Play
           </span>
         </Link>
 

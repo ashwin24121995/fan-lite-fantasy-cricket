@@ -72,11 +72,11 @@ export default function Register() {
         <Card className="w-full max-w-md cricket-card">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-4">
-              <img src="/logo.webp" alt="Fan Lite Fantasy Cricket" className="h-16 w-auto" />
+              <img src="/logo.webp" alt="Fan Lite Play" className="h-16 w-auto" />
             </div>
             <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
             <CardDescription>
-              Join Fan Lite Fantasy Cricket - 100% Free to Play!
+              Join Fan Lite Play - 100% Free to Play!
             </CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit}>
