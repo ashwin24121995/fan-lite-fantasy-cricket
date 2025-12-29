@@ -56,7 +56,7 @@ export default function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <img src="/logo-new.png" alt="Fan Lite Play" className="h-12 w-auto" />
+          <img src="/logo.webp" alt="Fan Lite Play" className="h-12 w-auto" />
         </Link>
 
         {/* Desktop Navigation */}

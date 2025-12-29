@@ -190,3 +190,8 @@
 - [x] Redesign Fantasy Points System section with elaborate cards and icons
 - [x] Add detailed point breakdowns with visual hierarchy
 - [x] Display Captain & Vice-Captain multipliers prominently
+
+
+## Production Issues (User Report)
+- [ ] Fix logo not displaying in header on production site
+- [ ] Fix contests not showing on production site
