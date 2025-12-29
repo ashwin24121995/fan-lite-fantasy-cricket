@@ -227,9 +227,11 @@ function MatchColumn({
   return (
     <div className={`match-column ${columnClass}`}>
       <div className="flex items-center gap-2 mb-4 sticky top-0 bg-inherit py-2">
-        <Icon className={`h-5 w-5 ${type === 'live' ? 'text-secondary' : type === 'future' ? 'text-primary' : 'text-accent'}`} />
+        <Icon className={`h-5 w-5 ${type === 'live' ? 'text-secondary animate-pulse' : type === 'future' ? 'text-primary' : 'text-accent'}`} />
         <h2 className="text-lg font-bold">{title}</h2>
-        <Badge variant="secondary" className="ml-auto">{matches.length}</Badge>
+        <Badge variant={type === 'live' ? 'default' : 'secondary'} className={`ml-auto ${type === 'live' && matches.length > 0 ? 'bg-secondary animate-pulse' : ''}`}>
+          {matches.length}
+        </Badge>
       </div>
       
       <div className="space-y-4 max-h-[calc(100vh-300px)] overflow-y-auto pr-2">
@@ -238,10 +240,15 @@ function MatchColumn({
             <MatchCard key={match.id} match={match} type={type} />
           ))
         ) : (
-          <Card className="text-center py-8">
+          <Card className={`text-center py-8 ${type === 'live' ? 'border-dashed border-secondary/50' : ''}`}>
             <CardContent>
-              <Icon className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
+              <div className={`h-12 w-12 mx-auto mb-3 rounded-full flex items-center justify-center ${type === 'live' ? 'bg-secondary/10' : 'bg-muted'}`}>
+                <Icon className={`h-6 w-6 ${type === 'live' ? 'text-secondary' : 'text-muted-foreground'}`} />
+              </div>
               <p className="text-sm text-muted-foreground">{emptyMessage}</p>
+              {type === 'live' && (
+                <p className="text-xs text-muted-foreground/70 mt-2">Auto-refreshing every 30 seconds</p>
+              )}
             </CardContent>
           </Card>
         )}
@@ -352,7 +359,7 @@ export default function Matches() {
               icon={Radio}
               matches={categorizedMatches.live}
               type="live"
-              emptyMessage="No live matches right now"
+              emptyMessage="No matches are live at this moment. Check back during scheduled match times!"
               columnClass="match-column-live"
             />
 
