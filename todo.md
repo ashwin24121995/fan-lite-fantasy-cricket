@@ -183,3 +183,10 @@
 
 ## Current Issues
 - [x] Fix Join Contests section not displaying on homepage - Now fetches all contests from API
+
+
+## Fantasy Points System Redesign (User Request)
+- [x] Create detailed section images for batting, bowling, fielding
+- [x] Redesign Fantasy Points System section with elaborate cards and icons
+- [x] Add detailed point breakdowns with visual hierarchy
+- [x] Display Captain & Vice-Captain multipliers prominently

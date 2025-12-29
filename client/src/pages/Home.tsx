@@ -603,54 +603,107 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="cricket-card text-center">
-              <CardContent className="pt-6">
-                <div className="text-4xl mb-3">🏏</div>
-                <h3 className="font-bold text-lg mb-2">Batting</h3>
-                <div className="space-y-1 text-sm text-muted-foreground">
-                  <p>1 point per run</p>
-                  <p>+10 for half-century</p>
-                  <p>+25 for century</p>
+          {/* Batting Section */}
+          <div className="mb-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-12">
+              <div className="order-2 lg:order-1">
+                <img src="/points-batting.png" alt="Batting Points" className="w-full rounded-2xl shadow-lg" />
+              </div>
+              <div className="order-1 lg:order-2">
+                <h3 className="text-3xl font-bold mb-6 text-primary">Batting Points</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">🏃</div>
+                    <div><p className="font-bold text-lg">Runs Scored</p><p className="text-muted-foreground">1 point per run</p></div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">🎯</div>
+                    <div><p className="font-bold text-lg">Half-Century (50 Runs)</p><p className="text-muted-foreground">+10 bonus points</p></div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">🏆</div>
+                    <div><p className="font-bold text-lg">Century (100 Runs)</p><p className="text-muted-foreground">+25 bonus points</p></div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">👑</div>
+                    <div><p className="font-bold text-lg">Double Century (200 Runs)</p><p className="text-muted-foreground">+50 bonus points</p></div>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="cricket-card text-center">
-              <CardContent className="pt-6">
-                <div className="text-4xl mb-3">🎯</div>
-                <h3 className="font-bold text-lg mb-2">Bowling</h3>
-                <div className="space-y-1 text-sm text-muted-foreground">
-                  <p>25 points per wicket</p>
-                  <p>+10 for 3-wicket haul</p>
-                  <p>+25 for 5-wicket haul</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Bowling Section */}
+          <div className="mb-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-3xl font-bold mb-6 text-primary">Bowling Points</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">🎳</div>
+                    <div><p className="font-bold text-lg">Per Wicket</p><p className="text-muted-foreground">25 points per wicket</p></div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">🔥</div>
+                    <div><p className="font-bold text-lg">3-Wicket Haul</p><p className="text-muted-foreground">+10 bonus points</p></div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">⚡</div>
+                    <div><p className="font-bold text-lg">5-Wicket Haul</p><p className="text-muted-foreground">+25 bonus points</p></div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">💎</div>
+                    <div><p className="font-bold text-lg">Economy Rate Bonuses</p><p className="text-muted-foreground">+5 to +15 points based on economy</p></div>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="cricket-card text-center">
-              <CardContent className="pt-6">
-                <div className="text-4xl mb-3">🧤</div>
-                <h3 className="font-bold text-lg mb-2">Fielding</h3>
-                <div className="space-y-1 text-sm text-muted-foreground">
-                  <p>10 points per catch</p>
-                  <p>15 points per stumping</p>
-                  <p>10 points per run-out</p>
+              </div>
+              <div>
+                <img src="/points-bowling.png" alt="Bowling Points" className="w-full rounded-2xl shadow-lg" />
+              </div>
+            </div>
+          </div>
+          
+          {/* Fielding Section */}
+          <div className="mb-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-12">
+              <div className="order-2 lg:order-1">
+                <img src="/points-fielding.png" alt="Fielding Points" className="w-full rounded-2xl shadow-lg" />
+              </div>
+              <div className="order-1 lg:order-2">
+                <h3 className="text-3xl font-bold mb-6 text-primary">Fielding Points</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">🧤</div>
+                    <div><p className="font-bold text-lg">Catches</p><p className="text-muted-foreground">10 points per catch</p></div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">🎯</div>
+                    <div><p className="font-bold text-lg">Stumpings</p><p className="text-muted-foreground">15 points per stumping</p></div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <div className="text-2xl">💥</div>
+                    <div><p className="font-bold text-lg">Run-Outs</p><p className="text-muted-foreground">10 points per run-out</p></div>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="cricket-card text-center">
-              <CardContent className="pt-6">
-                <div className="text-4xl mb-3">⭐</div>
-                <h3 className="font-bold text-lg mb-2">Multipliers</h3>
-                <div className="space-y-1 text-sm text-muted-foreground">
-                  <p>Captain: 2x points</p>
-                  <p>Vice-Captain: 1.5x points</p>
-                  <p>Choose wisely!</p>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
+          </div>
+          
+          {/* Multipliers Section */}
+          <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl p-8 border border-primary/20">
+            <h3 className="text-3xl font-bold mb-8 text-center">Captain & Vice-Captain Multipliers</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="text-center p-6 rounded-xl bg-background/50">
+                <div className="text-5xl font-bold text-primary mb-2">2x</div>
+                <p className="text-xl font-bold mb-2">Captain</p>
+                <p className="text-muted-foreground">All points earned by your captain are doubled. Choose your best performer!</p>
+              </div>
+              <div className="text-center p-6 rounded-xl bg-background/50">
+                <div className="text-5xl font-bold text-primary mb-2">1.5x</div>
+                <p className="text-xl font-bold mb-2">Vice-Captain</p>
+                <p className="text-muted-foreground">All points earned by your vice-captain are multiplied by 1.5. Strategic choice matters!</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
