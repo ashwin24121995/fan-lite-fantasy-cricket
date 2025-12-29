@@ -86,3 +86,5 @@
 
 ## Bug Fixes
 - [x] Fix score object rendering error on /matches page (CricAPI returns score as object with r,w,o,inning keys)
+- [x] Add all page links to Navbar (Home, Matches, Dashboard, My Teams, My Contests, Leaderboard)
+- [x] Add all page links to Footer navigation

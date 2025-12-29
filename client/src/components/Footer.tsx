@@ -40,6 +40,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/leaderboard" className="text-muted-foreground hover:text-primary transition-colors">
+                  Leaderboard
+                </Link>
+              </li>
+              <li>
                 <Link href="/dashboard" className="text-muted-foreground hover:text-primary transition-colors">
                   Dashboard
                 </Link>
@@ -47,6 +52,11 @@ export default function Footer() {
               <li>
                 <Link href="/my-teams" className="text-muted-foreground hover:text-primary transition-colors">
                   My Teams
+                </Link>
+              </li>
+              <li>
+                <Link href="/my-contests" className="text-muted-foreground hover:text-primary transition-colors">
+                  My Contests
                 </Link>
               </li>
             </ul>

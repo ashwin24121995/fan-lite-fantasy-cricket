@@ -37,6 +37,7 @@ export default function Navbar() {
   const navLinks = [
     { href: "/", label: "Home", icon: Home },
     { href: "/matches", label: "Matches", icon: Calendar },
+    { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
   ];
 
   const authLinks = [
