@@ -5,7 +5,10 @@ nixPkgs = ["nodejs_22", "pnpm-10_x", "openssl"]
 cmds = ["npm install -g corepack@0.24.1 && corepack enable pnpm", "pnpm i --frozen-lockfile"]
 
 [phases.build]
-cmds = ["pnpm run build", "pnpm seed:contests || true"]
+cmds = [
+  "echo '=== Building application ===' && pnpm run build && echo '✅ Build successful' || (echo '❌ Build failed' && exit 1)",
+  "echo '=== Seeding contests ===' && pnpm seed:contests && echo '✅ Seeding successful' || echo '⚠️  Seeding skipped (will run on startup)'"
+]
 
 [start]
 cmd = "pnpm start"
