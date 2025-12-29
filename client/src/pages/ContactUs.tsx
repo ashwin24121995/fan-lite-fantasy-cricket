@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { 
   Mail, 
   Phone, 
@@ -16,9 +16,10 @@ import {
   Shield,
   Users,
   ChevronRight,
-  CheckCircle,
-  AlertCircle
+  CheckCircle
 } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -34,15 +35,10 @@ export default function ContactUs() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
     setSubmitStatus("success");
     setIsSubmitting(false);
     setFormData({ name: "", email: "", subject: "", category: "", message: "" });
-    
-    // Reset status after 5 seconds
     setTimeout(() => setSubmitStatus("idle"), 5000);
   };
 
@@ -50,21 +46,21 @@ export default function ContactUs() {
     {
       icon: Mail,
       title: "Email Support",
-      description: "Get detailed responses to your queries within 24 hours",
+      description: "Get detailed responses within 24 hours",
       contact: "support@fanliteplay.com",
       availability: "24/7 Support"
     },
     {
       icon: MessageCircle,
       title: "Live Chat",
-      description: "Instant assistance from our support team",
+      description: "Instant assistance from our team",
       contact: "Available on website",
       availability: "9 AM - 11 PM IST"
     },
     {
       icon: Phone,
       title: "Phone Support",
-      description: "Speak directly with our customer care team",
+      description: "Speak directly with our team",
       contact: "+91 1800-XXX-XXXX",
       availability: "Mon-Sat, 10 AM - 8 PM IST"
     }
@@ -72,16 +68,15 @@ export default function ContactUs() {
 
   const quickLinks = [
     { icon: HelpCircle, title: "FAQ", description: "Find answers to common questions", href: "/faq" },
-    { icon: FileText, title: "How to Play", description: "Learn the basics of fantasy cricket", href: "/how-to-play" },
-    { icon: Shield, title: "Fair Play Policy", description: "Understand our fair play guidelines", href: "/fair-play" },
-    { icon: Users, title: "About Us", description: "Learn more about Fan Lite Play", href: "/about" }
+    { icon: FileText, title: "How to Play", description: "Learn the basics", href: "/how-to-play" },
+    { icon: Shield, title: "Fair Play Policy", description: "Our fair play guidelines", href: "/fair-play" },
+    { icon: Users, title: "About Us", description: "Learn more about us", href: "/about" }
   ];
 
   const supportCategories = [
     "Account Issues",
     "Contest Queries",
     "Technical Problems",
-    "Payment & Withdrawals",
     "Team Selection Help",
     "Scoring Questions",
     "Feedback & Suggestions",
@@ -91,348 +86,296 @@ export default function ContactUs() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <img 
-            src="/contact-hero.jpg" 
-            alt="Customer Support Team" 
-            className="w-full h-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/80" />
-        </div>
-        
-        <div className="container relative z-10">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Get in <span className="text-teal-400">Touch</span>
-            </h1>
-            <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-              We're here to help! Whether you have questions about contests, need technical support, 
-              or want to share feedback, our dedicated team is ready to assist you. Reach out through 
-              any of our support channels and we'll get back to you as soon as possible.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <div className="flex items-center gap-2 text-teal-400">
-                <CheckCircle className="w-5 h-5" />
-                <span>24/7 Email Support</span>
+    <div className="min-h-screen bg-background flex flex-col">
+      <Navbar />
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-br from-slate-900 via-teal-900 to-emerald-900 py-20 px-4">
+          <div className="container max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div>
+                <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                  Contact <span className="text-teal-400">Us</span>
+                </h1>
+                <p className="text-xl text-gray-200 mb-8 leading-relaxed">
+                  Have questions or need assistance? Our dedicated support team is here to help you with anything related to Fan Lite Play.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <div className="flex items-center gap-2 text-teal-400">
+                    <CheckCircle className="w-5 h-5" />
+                    <span>24/7 Email Support</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-teal-400">
+                    <CheckCircle className="w-5 h-5" />
+                    <span>Quick Response Time</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-teal-400">
-                <CheckCircle className="w-5 h-5" />
-                <span>Average Response: 4 Hours</span>
-              </div>
-              <div className="flex items-center gap-2 text-teal-400">
-                <CheckCircle className="w-5 h-5" />
-                <span>98% Satisfaction Rate</span>
+              <div className="hidden md:block">
+                <img src="/contact-hero.jpg" alt="Contact Support" className="rounded-lg shadow-2xl w-full" />
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact Methods */}
-      <section className="py-16 bg-slate-800/50">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Contact Methods</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Choose the support channel that works best for you. Our team is committed to 
-              providing prompt and helpful assistance through all channels.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            {contactMethods.map((method, index) => (
-              <Card key={index} className="bg-slate-900/50 border-slate-700 hover:border-teal-500/50 transition-all duration-300">
-                <CardContent className="p-6">
-                  <div className="w-14 h-14 bg-teal-500/20 rounded-xl flex items-center justify-center mb-4">
-                    <method.icon className="w-7 h-7 text-teal-400" />
+        {/* Contact Methods */}
+        <section className="py-20 px-4 bg-slate-50">
+          <div className="container max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+                Get in <span className="text-teal-600">Touch</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Choose the most convenient way to reach us
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              {contactMethods.map((method, index) => (
+                <div key={index} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition border-t-4 border-teal-500">
+                  <method.icon className="w-12 h-12 text-teal-500 mb-4" />
+                  <h3 className="text-2xl font-bold text-slate-900 mb-3">{method.title}</h3>
+                  <p className="text-gray-600 mb-4">{method.description}</p>
+                  <p className="text-teal-600 font-semibold mb-2">{method.contact}</p>
+                  <div className="flex items-center gap-2 text-gray-500 text-sm">
+                    <Clock className="w-4 h-4" />
+                    <span>{method.availability}</span>
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-2">{method.title}</h3>
-                  <p className="text-slate-400 text-sm mb-4">{method.description}</p>
-                  <div className="space-y-2">
-                    <p className="text-teal-400 font-medium">{method.contact}</p>
-                    <div className="flex items-center gap-2 text-slate-500 text-sm">
-                      <Clock className="w-4 h-4" />
-                      <span>{method.availability}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Form & Office Info */}
+        <section className="py-20 px-4 bg-white">
+          <div className="container max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* Contact Form */}
+              <div>
+                <h2 className="text-3xl font-bold text-slate-900 mb-6">Send Us a Message</h2>
+                <p className="text-gray-600 mb-8">
+                  Fill out the form below and we'll get back to you as soon as possible.
+                </p>
+
+                {submitStatus === "success" && (
+                  <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-lg mb-6 flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5" />
+                    <span>Thank you! Your message has been sent successfully.</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
+                      <Input
+                        type="text"
+                        placeholder="John Doe"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        required
+                        className="bg-slate-50 border-slate-200"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                      <Input
+                        type="email"
+                        placeholder="john@example.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        required
+                        className="bg-slate-50 border-slate-200"
+                      />
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Contact Form & Info */}
-      <section className="py-16">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div>
-              <h2 className="text-3xl font-bold text-white mb-4">Send Us a Message</h2>
-              <p className="text-slate-400 mb-8">
-                Fill out the form below and our support team will get back to you within 24 hours. 
-                Please provide as much detail as possible to help us assist you better.
-              </p>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Your Name *
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      required
+                      className="w-full px-4 py-2 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:ring-2 focus:ring-teal-500"
+                    >
+                      <option value="">Select a category</option>
+                      {supportCategories.map((cat) => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
                     <Input
                       type="text"
-                      placeholder="Enter your full name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="How can we help?"
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                       required
-                      className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+                      className="bg-slate-50 border-slate-200"
                     />
                   </div>
+
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Email Address *
-                    </label>
-                    <Input
-                      type="email"
-                      placeholder="your.email@example.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                    <Textarea
+                      placeholder="Please describe your query in detail..."
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       required
-                      className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+                      rows={5}
+                      className="bg-slate-50 border-slate-200"
                     />
                   </div>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Category *
-                  </label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    required
-                    className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3"
                   >
-                    <option value="">Select a category</option>
-                    {supportCategories.map((category, index) => (
-                      <option key={index} value={category}>{category}</option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Subject *
-                  </label>
-                  <Input
-                    type="text"
-                    placeholder="Brief description of your inquiry"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    required
-                    className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Message *
-                  </label>
-                  <Textarea
-                    placeholder="Please describe your issue or question in detail. Include any relevant information such as contest names, dates, or error messages."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    required
-                    rows={6}
-                    className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
-                  />
-                </div>
-                
-                {submitStatus === "success" && (
-                  <div className="flex items-center gap-2 p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400">
-                    <CheckCircle className="w-5 h-5" />
-                    <span>Thank you! Your message has been sent successfully. We'll get back to you soon.</span>
-                  </div>
-                )}
-                
-                {submitStatus === "error" && (
-                  <div className="flex items-center gap-2 p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-400">
-                    <AlertCircle className="w-5 h-5" />
-                    <span>Something went wrong. Please try again or contact us directly via email.</span>
-                  </div>
-                )}
-                
-                <Button 
-                  type="submit" 
-                  disabled={isSubmitting}
-                  className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3"
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Sending...
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-2">
-                      <Send className="w-4 h-4" />
-                      Send Message
-                    </span>
-                  )}
-                </Button>
-              </form>
-            </div>
-            
-            {/* Additional Info */}
-            <div className="space-y-8">
-              {/* Office Information */}
-              <Card className="bg-slate-900/50 border-slate-700">
-                <CardHeader>
-                  <CardTitle className="text-white flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-teal-400" />
-                    Our Office
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <p className="text-slate-300 font-medium">Fan Lite Play Headquarters</p>
-                    <p className="text-slate-400">
-                      123 Tech Park, Sector 62<br />
-                      Noida, Uttar Pradesh 201301<br />
-                      India
-                    </p>
-                  </div>
-                  <div className="pt-4 border-t border-slate-700">
-                    <p className="text-sm text-slate-400">
-                      <strong className="text-slate-300">Note:</strong> We primarily operate online. 
-                      For in-person meetings, please schedule an appointment in advance via email.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              {/* Response Times */}
-              <Card className="bg-slate-900/50 border-slate-700">
-                <CardHeader>
-                  <CardTitle className="text-white flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-teal-400" />
-                    Expected Response Times
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-slate-700">
-                      <span className="text-slate-400">Email Support</span>
-                      <span className="text-teal-400 font-medium">Within 24 hours</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-slate-700">
-                      <span className="text-slate-400">Live Chat</span>
-                      <span className="text-teal-400 font-medium">Instant (when available)</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-slate-700">
-                      <span className="text-slate-400">Phone Support</span>
-                      <span className="text-teal-400 font-medium">Immediate</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-slate-400">Social Media</span>
-                      <span className="text-teal-400 font-medium">Within 12 hours</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              {/* Quick Links */}
-              <Card className="bg-slate-900/50 border-slate-700">
-                <CardHeader>
-                  <CardTitle className="text-white">Quick Links</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {quickLinks.map((link, index) => (
-                      <Link key={index} href={link.href}>
-                        <div className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer group">
-                          <div className="flex items-center gap-3">
-                            <link.icon className="w-5 h-5 text-teal-400" />
-                            <div>
-                              <p className="text-white font-medium">{link.title}</p>
-                              <p className="text-sm text-slate-400">{link.description}</p>
-                            </div>
-                          </div>
-                          <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-teal-400 transition-colors" />
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Social Media */}
-      <section className="py-16 bg-slate-800/50">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Connect With Us</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Follow us on social media for the latest updates, contest announcements, 
-              cricket news, and exclusive tips from our fantasy experts.
-            </p>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-6">
-            {[
-              { name: "Twitter", handle: "@FanLitePlay", color: "bg-blue-500" },
-              { name: "Instagram", handle: "@fanliteplay", color: "bg-pink-500" },
-              { name: "Facebook", handle: "FanLitePlay", color: "bg-blue-600" },
-              { name: "YouTube", handle: "Fan Lite Play", color: "bg-red-500" },
-              { name: "Telegram", handle: "@FanLitePlayOfficial", color: "bg-sky-500" }
-            ].map((social, index) => (
-              <div 
-                key={index}
-                className="px-6 py-4 bg-slate-900/50 border border-slate-700 rounded-xl hover:border-teal-500/50 transition-all cursor-pointer"
-              >
-                <div className={`w-10 h-10 ${social.color} rounded-full flex items-center justify-center mb-2 mx-auto`}>
-                  <span className="text-white font-bold text-lg">{social.name[0]}</span>
-                </div>
-                <p className="text-white font-medium text-center">{social.name}</p>
-                <p className="text-slate-400 text-sm text-center">{social.handle}</p>
+                    {isSubmitting ? (
+                      "Sending..."
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        Send Message
+                      </>
+                    )}
+                  </Button>
+                </form>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="py-16">
-        <div className="container">
-          <div className="bg-gradient-to-r from-teal-500/20 to-coral-500/20 border border-teal-500/30 rounded-2xl p-8 md:p-12 text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Can't Find What You're Looking For?
+              {/* Office Info */}
+              <div>
+                <h2 className="text-3xl font-bold text-slate-900 mb-6">Our Office</h2>
+                <p className="text-gray-600 mb-8">
+                  Visit us at our headquarters or send us mail at the address below.
+                </p>
+
+                <div className="bg-gradient-to-br from-teal-50 to-emerald-50 p-8 rounded-xl border-l-4 border-teal-500 mb-8">
+                  <div className="flex items-start gap-4 mb-6">
+                    <MapPin className="w-6 h-6 text-teal-600 mt-1" />
+                    <div>
+                      <h3 className="font-semibold text-slate-900 mb-2">Registered Office</h3>
+                      <p className="text-gray-600">
+                        F-73, DLF Promenade Mall,<br />
+                        Nelson Mandela Marg, Vasant Kunj,<br />
+                        New Delhi, Delhi - 110070, India
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4 mb-6">
+                    <Clock className="w-6 h-6 text-teal-600 mt-1" />
+                    <div>
+                      <h3 className="font-semibold text-slate-900 mb-2">Business Hours</h3>
+                      <p className="text-gray-600">
+                        Monday - Saturday: 10:00 AM - 8:00 PM IST<br />
+                        Sunday: Closed
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <Mail className="w-6 h-6 text-teal-600 mt-1" />
+                    <div>
+                      <h3 className="font-semibold text-slate-900 mb-2">Email Addresses</h3>
+                      <p className="text-gray-600">
+                        General: support@fanliteplay.com<br />
+                        Business: business@fanliteplay.com<br />
+                        Press: media@fanliteplay.com
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quick Links */}
+                <h3 className="text-xl font-bold text-slate-900 mb-4">Quick Links</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {quickLinks.map((link, index) => (
+                    <Link key={index} href={link.href}>
+                      <Card className="hover:shadow-md transition cursor-pointer bg-slate-50 border-slate-200">
+                        <CardContent className="p-4 flex items-center gap-3">
+                          <link.icon className="w-5 h-5 text-teal-600" />
+                          <div>
+                            <p className="font-medium text-slate-900">{link.title}</p>
+                            <p className="text-xs text-gray-500">{link.description}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Response Time */}
+        <section className="py-20 px-4 bg-slate-900">
+          <div className="container max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-white mb-4">
+                Expected <span className="text-teal-400">Response Times</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                We strive to respond to all queries as quickly as possible
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="bg-teal-500 text-white text-3xl font-bold w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  &lt;1h
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Live Chat</h3>
+                <p className="text-gray-400">Instant responses during business hours</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-coral-500 text-white text-3xl font-bold w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  24h
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Email Support</h3>
+                <p className="text-gray-400">Within 24 hours for most queries</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-emerald-500 text-white text-3xl font-bold w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  48h
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Complex Issues</h3>
+                <p className="text-gray-400">For detailed investigations</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-16 px-4 bg-gradient-to-r from-teal-500 to-emerald-500">
+          <div className="container max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Ready to Start Playing?
             </h2>
-            <p className="text-slate-300 mb-8 max-w-2xl mx-auto">
-              Check out our comprehensive FAQ section for instant answers to common questions, 
-              or browse our How to Play guide to learn everything about fantasy cricket.
+            <p className="text-xl text-teal-100 mb-8">
+              Join thousands of cricket fans on Fan Lite Play today!
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/faq">
-                <Button className="bg-teal-500 hover:bg-teal-600 text-white">
-                  Browse FAQ
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/register">
+                <Button className="bg-white text-teal-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
+                  Get Started Free <ChevronRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
               <Link href="/how-to-play">
-                <Button variant="outline" className="border-teal-500 text-teal-400 hover:bg-teal-500/10">
-                  How to Play
+                <Button variant="outline" className="border-2 border-white text-white hover:bg-white/10 px-8 py-3 text-lg font-semibold">
+                  Learn How to Play
                 </Button>
               </Link>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
+      <Footer />
     </div>
   );
 }

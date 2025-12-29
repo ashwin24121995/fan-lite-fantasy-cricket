@@ -229,7 +229,7 @@
 - [x] Update railway.json with proper health check configuration
 - [x] Test locally - health check working correctly
 - [x] Add Information page link to Footer
-- [ ] Push to GitHub
+- [x] Push to GitHub - Commit 9527c3fe
 - [ ] Monitor Railway deployment
 
 
@@ -247,4 +247,17 @@
 - [x] Responsible Gaming - resources and support with hero image
 - [x] Add routes for all new pages (with aliases)
 - [x] Update footer links (already correct)
-- [ ] Push to GitHub
+- [x] Push to GitHub - Commit 9527c3fe
+
+
+## Layout Unification (Completed)
+- [x] Review Information, About Us, How to Play, FAQ page layouts
+- [x] Review Contact Us, Terms, Privacy, Fair Play, Responsible Gaming layouts
+- [x] Choose one consistent layout style - Dark hero with teal accents, light content sections
+- [x] Update Contact Us page to match
+- [x] Update Terms of Service page to match
+- [x] Update Privacy Policy page to match
+- [x] Update Fair Play Policy page to match
+- [x] Update Responsible Gaming page to match
+- [x] Test all pages - All pages verified with consistent layout
+- [x] Push to GitHub

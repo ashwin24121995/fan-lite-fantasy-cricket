@@ -1,26 +1,214 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Heart, Clock, Users, Brain, Shield, Lightbulb, Phone, Mail, HelpCircle, ChevronRight, Target, AlertTriangle, CheckCircle } from "lucide-react";
+import { 
+  Heart, 
+  Shield, 
+  Clock, 
+  AlertTriangle, 
+  Phone, 
+  Users,
+  Brain,
+  Lightbulb,
+  ChevronRight,
+  CheckCircle,
+  HelpCircle,
+  Target
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function ResponsibleGaming() {
-  const supportResources = [
-    { name: "iCall", phone: "9152987821", desc: "Psychosocial helpline by TISS", hours: "Mon-Sat, 8am-10pm" },
-    { name: "Vandrevala Foundation", phone: "1860-2662-345", desc: "Mental health support", hours: "24/7" },
-    { name: "NIMHANS", phone: "080-46110007", desc: "National mental health institute", hours: "Mon-Sat, 9am-5pm" }
+  const sections = [
+    {
+      id: "commitment",
+      icon: Heart,
+      title: "1. Our Commitment",
+      content: `At Fan Lite Play, we are committed to promoting responsible gaming practices. While our platform is free-to-play with no real money involved, we believe it's important to maintain healthy gaming habits and ensure that fantasy cricket remains an enjoyable pastime.
+
+We encourage all users to:
+• Play for entertainment and fun
+• Set personal time limits
+• Maintain balance with other activities
+• Recognize when gaming becomes problematic
+
+Our platform is designed to be a skill-based entertainment experience, not a substitute for real-life activities or relationships.`
+    },
+    {
+      id: "healthy",
+      icon: Brain,
+      title: "2. Healthy Gaming Habits",
+      content: `Maintaining healthy gaming habits is essential for enjoying fantasy cricket responsibly:
+
+Time Management:
+• Set daily or weekly time limits for gaming
+• Take regular breaks during extended sessions
+• Don't let gaming interfere with work, school, or relationships
+• Schedule gaming time rather than playing impulsively
+
+Balanced Lifestyle:
+• Maintain physical activity and exercise
+• Spend quality time with family and friends
+• Pursue other hobbies and interests
+• Ensure adequate sleep and rest
+
+Mindful Gaming:
+• Play for enjoyment, not to escape problems
+• Don't chase losses or become obsessed with rankings
+• Celebrate wins moderately
+• Accept that outcomes depend on real match results`
+    },
+    {
+      id: "warning",
+      icon: AlertTriangle,
+      title: "3. Warning Signs",
+      content: `Be aware of these warning signs that gaming may be becoming problematic:
+
+Behavioral Signs:
+• Spending excessive time on the platform
+• Neglecting responsibilities or relationships
+• Feeling restless or irritable when not playing
+• Lying about time spent gaming
+
+Emotional Signs:
+• Gaming to escape negative emotions
+• Feeling anxious or depressed about rankings
+• Becoming overly competitive or aggressive
+• Experiencing mood swings related to contest results
+
+Social Signs:
+• Withdrawing from friends and family
+• Preferring gaming over social activities
+• Conflicts with loved ones about gaming
+• Declining performance at work or school
+
+If you recognize these signs in yourself or others, it may be time to seek help or take a break.`
+    },
+    {
+      id: "tools",
+      icon: Shield,
+      title: "4. Self-Help Tools",
+      content: `We provide several tools to help you manage your gaming:
+
+Time Limits:
+• Set daily session reminders
+• Configure break notifications
+• Track your total time spent
+
+Account Controls:
+• Self-exclusion options available
+• Temporary account suspension
+• Permanent account closure
+
+Activity Monitoring:
+• View your gaming history
+• Track contest participation
+• Monitor time spent on platform
+
+To access these tools, visit your account settings or contact our support team for assistance.`
+    },
+    {
+      id: "support",
+      icon: Phone,
+      title: "5. Getting Help",
+      content: `If you or someone you know needs help with gaming-related issues, these resources are available:
+
+Fan Lite Play Support:
+• Email: support@fanliteplay.com
+• Available 24/7 for assistance
+• Confidential and non-judgmental
+
+Professional Resources:
+• National Mental Health Helpline: 1800-599-0019 (India)
+• iCall: 9152987821
+• Vandrevala Foundation: 1860-2662-345
+
+Online Resources:
+• www.nimhans.ac.in
+• www.thelivelovelaughfoundation.org
+• www.mindyourmind.ca
+
+Remember, seeking help is a sign of strength, not weakness.`
+    },
+    {
+      id: "parents",
+      icon: Users,
+      title: "6. Information for Parents",
+      content: `Parents and guardians play a crucial role in promoting responsible gaming:
+
+Age Restrictions:
+• Fan Lite Play is for users 18 years and older
+• We verify age during registration
+• Underage accounts are terminated
+
+Parental Guidance:
+• Monitor your children's online activities
+• Discuss responsible gaming habits
+• Set clear rules and boundaries
+• Be aware of warning signs
+
+Communication:
+• Talk openly about gaming
+• Understand what your children are playing
+• Encourage balanced activities
+• Be a positive role model
+
+If you believe a minor is using our platform, please contact us immediately.`
+    },
+    {
+      id: "education",
+      icon: Lightbulb,
+      title: "7. Understanding Fantasy Sports",
+      content: `Fantasy cricket is a game of skill that involves:
+
+Skill-Based Elements:
+• Player selection based on knowledge
+• Strategic team composition
+• Understanding cricket statistics
+• Analyzing match conditions
+
+What It's Not:
+• Not gambling or betting
+• No real money prizes on our platform
+• Not based on chance alone
+• Not a way to make money
+
+Healthy Perspective:
+• View it as entertainment
+• Enjoy the strategic challenge
+• Connect with fellow cricket fans
+• Learn more about the sport
+
+Understanding the nature of fantasy sports helps maintain a healthy relationship with the game.`
+    },
+    {
+      id: "contact",
+      icon: HelpCircle,
+      title: "8. Contact Us",
+      content: `If you have questions about responsible gaming or need assistance:
+
+Support Team:
+• Email: support@fanliteplay.com
+• Response within 24 hours
+
+Responsible Gaming Team:
+• Email: responsible@fanliteplay.com
+• Dedicated support for gaming concerns
+
+Office Address:
+Fan Lite Play
+F-73, DLF Promenade Mall,
+Nelson Mandela Marg, Vasant Kunj,
+New Delhi, Delhi - 110070, India
+
+We're here to help you enjoy fantasy cricket responsibly.`
+    }
   ];
 
-  const warningSigns = [
-    "Spending more time on fantasy cricket than intended",
-    "Neglecting work, studies, or personal relationships",
-    "Feeling anxious or irritable when not playing",
-    "Constantly thinking about fantasy cricket",
-    "Difficulty controlling the urge to play",
-    "Using fantasy cricket to escape problems or negative feelings",
-    "Lying to family or friends about time spent playing",
-    "Feeling restless when trying to cut back"
+  const tips = [
+    { icon: Clock, title: "Set Time Limits", desc: "Decide how much time you'll spend before you start" },
+    { icon: Heart, title: "Play for Fun", desc: "Remember, it's entertainment, not a competition" },
+    { icon: Users, title: "Stay Connected", desc: "Don't let gaming replace real relationships" },
+    { icon: Brain, title: "Stay Balanced", desc: "Maintain other hobbies and activities" }
   ];
 
   return (
@@ -28,340 +216,139 @@ export default function ResponsibleGaming() {
       <Navbar />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 py-20 overflow-hidden">
-          <div className="absolute inset-0">
-            <img src="/responsible-gaming-hero.jpg" alt="Responsible Gaming" className="w-full h-full object-cover opacity-30" />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/80" />
-          </div>
-          <div className="container relative z-10">
-            <div className="flex items-center gap-2 text-primary mb-4">
-              <Heart className="w-5 h-5" />
-              <span className="text-sm font-medium uppercase tracking-wider">Player Wellbeing</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Responsible <span className="text-primary">Gaming</span>
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mb-6">
-              At Fan Lite Play, we believe that fantasy cricket should be a fun and entertaining experience. We are committed to promoting responsible gaming and providing resources to help our users maintain a healthy relationship with our platform.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <div className="flex items-center gap-2 text-primary">
-                <CheckCircle className="w-5 h-5" />
-                <span>100% Free Platform</span>
+        <section className="bg-gradient-to-br from-slate-900 via-teal-900 to-emerald-900 py-20 px-4">
+          <div className="container max-w-6xl mx-auto">
+            <div className="max-w-3xl">
+              <div className="flex items-center gap-2 text-teal-400 mb-4">
+                <Heart className="w-5 h-5" />
+                <span className="text-sm font-medium uppercase tracking-wider">Player Wellbeing</span>
               </div>
-              <div className="flex items-center gap-2 text-primary">
-                <CheckCircle className="w-5 h-5" />
-                <span>No Real Money</span>
-              </div>
-              <div className="flex items-center gap-2 text-primary">
-                <CheckCircle className="w-5 h-5" />
-                <span>Play for Fun</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Our Commitment */}
-        <section className="py-16 container">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-foreground text-center mb-8">Our Commitment to You</h2>
-            <p className="text-muted-foreground text-center text-lg mb-12">
-              Fantasy cricket should be an enjoyable experience that enhances your love for the sport. We are committed to providing a safe, responsible, and entertaining environment for all cricket fans.
-            </p>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <Heart className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-semibold text-foreground mb-3">100% Free to Play</h3>
-                  <p className="text-muted-foreground">
-                    Our platform is completely free. There are no entry fees, no in-app purchases, and no monetary stakes. This eliminates financial risk and keeps the focus on fun and skill.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <Brain className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-semibold text-foreground mb-3">Game of Skill</h3>
-                  <p className="text-muted-foreground">
-                    Fantasy cricket rewards knowledge, analysis, and strategic thinking. Success comes from understanding the game, not from luck or chance.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <Shield className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-semibold text-foreground mb-3">Age Restriction</h3>
-                  <p className="text-muted-foreground">
-                    Our platform is strictly for users 18 years and above. We take measures to prevent underage access and encourage parents to monitor their children's online activities.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <Users className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-semibold text-foreground mb-3">Community Focus</h3>
-                  <p className="text-muted-foreground">
-                    We foster a positive community where cricket fans can connect, compete, and share their passion for the sport in a healthy environment.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Tips for Responsible Gaming */}
-        <section className="py-16 bg-muted/30">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-foreground text-center mb-12">Tips for Responsible Gaming</h2>
-            <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-2">Set Time Limits</h3>
-                    <p className="text-muted-foreground">
-                      Decide in advance how much time you want to spend on fantasy cricket. Take regular breaks and don't let gaming interfere with your daily responsibilities.
-                    </p>
-                  </div>
+              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                Responsible <span className="text-teal-400">Gaming</span>
+              </h1>
+              <p className="text-xl text-gray-200 mb-4 leading-relaxed">
+                We're committed to ensuring fantasy cricket remains a fun and healthy activity. Learn about responsible gaming practices and available support.
+              </p>
+              <div className="flex flex-wrap gap-4 mt-6">
+                <div className="flex items-center gap-2 text-teal-400">
+                  <CheckCircle className="w-5 h-5" />
+                  <span>100% Free Platform</span>
                 </div>
-
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Lightbulb className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-2">Play for Fun</h3>
-                    <p className="text-muted-foreground">
-                      Remember that fantasy cricket is meant to be entertaining. Focus on enjoying the game and learning about cricket rather than obsessing over rankings.
-                    </p>
-                  </div>
+                <div className="flex items-center gap-2 text-teal-400">
+                  <CheckCircle className="w-5 h-5" />
+                  <span>No Real Money</span>
                 </div>
-
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Users className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-2">Balance with Real Life</h3>
-                    <p className="text-muted-foreground">
-                      Maintain a healthy balance between online gaming and real-world activities. Spend time with family, friends, and pursue other hobbies.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Heart className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-2">Know When to Stop</h3>
-                    <p className="text-muted-foreground">
-                      If you feel frustrated, stressed, or if gaming is affecting your mood negatively, take a break. It's okay to step away and return when you're in a better mindset.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Brain className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-2">Stay Informed</h3>
-                    <p className="text-muted-foreground">
-                      Educate yourself about responsible gaming practices. Understanding the nature of games of skill helps you maintain a healthy perspective.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-2">Protect Your Account</h3>
-                    <p className="text-muted-foreground">
-                      Never share your login credentials with anyone. Keep your account secure and report any suspicious activity immediately.
-                    </p>
-                  </div>
+                <div className="flex items-center gap-2 text-teal-400">
+                  <CheckCircle className="w-5 h-5" />
+                  <span>Play for Fun</span>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Warning Signs */}
-        <section className="py-16 container">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-foreground text-center mb-8">Recognize the Warning Signs</h2>
-            <p className="text-muted-foreground text-center mb-8">
-              While our platform is free and designed for entertainment, it's important to recognize if gaming is becoming problematic:
-            </p>
-            <div className="bg-card border border-border rounded-lg p-6">
-              <ul className="space-y-4 text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <span className="text-amber-500 font-bold">•</span>
-                  <span>Spending more time on fantasy cricket than intended</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-amber-500 font-bold">•</span>
-                  <span>Neglecting work, studies, or personal relationships</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-amber-500 font-bold">•</span>
-                  <span>Feeling irritable or anxious when not playing</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-amber-500 font-bold">•</span>
-                  <span>Lying to others about time spent gaming</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-amber-500 font-bold">•</span>
-                  <span>Using gaming as an escape from problems</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-amber-500 font-bold">•</span>
-                  <span>Difficulty controlling the urge to play</span>
-                </li>
-              </ul>
-            </div>
-            <p className="text-muted-foreground text-center mt-6">
-              If you recognize these signs in yourself or someone you know, consider taking a break and seeking support if needed.
-            </p>
-          </div>
-        </section>
-
-        {/* Professional Support Resources */}
-        <section className="py-16 bg-muted/30">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-foreground text-center mb-4">Professional Support Resources</h2>
-            <p className="text-muted-foreground text-center mb-8 max-w-2xl mx-auto">
-              If you or someone you know is struggling with gaming habits or mental health concerns, professional help is available.
-            </p>
-            <div className="max-w-3xl mx-auto space-y-4">
-              {supportResources.map((resource, index) => (
-                <Card key={index} className="bg-card border-border">
-                  <CardContent className="p-4">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                      <div>
-                        <h4 className="text-foreground font-semibold">{resource.name}</h4>
-                        <p className="text-muted-foreground text-sm">{resource.desc}</p>
-                        <p className="text-muted-foreground/70 text-xs mt-1">{resource.hours}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Phone className="w-4 h-4 text-primary" />
-                        <span className="text-primary font-medium">{resource.phone}</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+        {/* Quick Tips */}
+        <section className="py-12 px-4 bg-slate-50 border-b">
+          <div className="container max-w-6xl mx-auto">
+            <h2 className="text-xl font-bold text-slate-900 mb-6 text-center">Quick Tips for Healthy Gaming</h2>
+            <div className="grid md:grid-cols-4 gap-6">
+              {tips.map((tip, index) => (
+                <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center">
+                  <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <tip.icon className="w-6 h-6 text-teal-600" />
+                  </div>
+                  <h3 className="font-semibold text-slate-900 mb-2">{tip.title}</h3>
+                  <p className="text-sm text-gray-600">{tip.desc}</p>
+                </div>
               ))}
             </div>
-            <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 mt-8 max-w-3xl mx-auto">
-              <p className="text-sm text-center">
-                <strong className="text-primary">Remember:</strong> Seeking help is a sign of strength, not weakness. If you're concerned about your gaming habits or mental health, please reach out to a professional.
+          </div>
+        </section>
+
+        {/* Quick Navigation */}
+        <section className="py-8 px-4 bg-white border-b">
+          <div className="container max-w-6xl mx-auto">
+            <h2 className="text-lg font-bold text-slate-900 mb-4">Quick Navigation</h2>
+            <div className="flex flex-wrap gap-2">
+              {sections.map((section) => (
+                <a
+                  key={section.id}
+                  href={`#${section.id}`}
+                  className="px-4 py-2 bg-slate-50 rounded-lg text-sm text-slate-700 hover:bg-teal-50 hover:text-teal-600 transition border border-slate-200"
+                >
+                  {section.title.split(". ")[1]}
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Content */}
+        <section className="py-16 px-4 bg-white">
+          <div className="container max-w-4xl mx-auto">
+            <div className="space-y-12">
+              {sections.map((section) => (
+                <div key={section.id} id={section.id} className="scroll-mt-24">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-teal-100 rounded-lg">
+                      <section.icon className="w-6 h-6 text-teal-600" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-slate-900">{section.title}</h2>
+                  </div>
+                  <div className="pl-12">
+                    <div className="prose prose-slate max-w-none">
+                      {section.content.split('\n\n').map((paragraph, idx) => (
+                        <p key={idx} className="text-gray-700 leading-relaxed mb-4 whitespace-pre-line">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Help Section */}
+        <section className="py-16 px-4 bg-slate-50">
+          <div className="container max-w-4xl mx-auto text-center">
+            <div className="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
+              <Phone className="w-12 h-12 text-teal-500 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Need Help?</h2>
+              <p className="text-gray-600 mb-6">
+                If you or someone you know needs support, we're here to help. Reach out to our team or access professional resources.
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Self-Help Tools */}
-        <section className="py-16 container">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-foreground text-center mb-8">Self-Help Tools</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <Clock className="w-8 h-8 text-primary mb-3" />
-                  <h3 className="font-semibold text-foreground mb-2">Session Reminders</h3>
-                  <p className="text-muted-foreground text-sm">Set reminders to notify you when you've been playing for a certain amount of time.</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <Target className="w-8 h-8 text-primary mb-3" />
-                  <h3 className="font-semibold text-foreground mb-2">Activity History</h3>
-                  <p className="text-muted-foreground text-sm">Review your activity history to understand your gaming patterns.</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <Shield className="w-8 h-8 text-primary mb-3" />
-                  <h3 className="font-semibold text-foreground mb-2">Self-Exclusion</h3>
-                  <p className="text-muted-foreground text-sm">Request a temporary or permanent self-exclusion from the platform if needed.</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-card border-border">
-                <CardContent className="p-6">
-                  <AlertTriangle className="w-8 h-8 text-primary mb-3" />
-                  <h3 className="font-semibold text-foreground mb-2">Account Deletion</h3>
-                  <p className="text-muted-foreground text-sm">Request permanent deletion of your account at any time.</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Contact Support */}
-        <section className="py-16 bg-muted/30">
-          <div className="container text-center max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold text-foreground mb-4">Need Help?</h2>
-            <p className="text-muted-foreground mb-6">
-              If you have any questions about responsible gaming or need assistance with any of our self-help tools, our support team is here to help.
-            </p>
-            <div className="bg-card border border-border rounded-lg p-6 mb-6">
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-center gap-3">
-                  <Mail className="w-5 h-5 text-primary" />
-                  <span className="text-muted-foreground">support@fanliteplay.com</span>
-                </div>
-                <div className="flex items-center justify-center gap-3">
-                  <HelpCircle className="w-5 h-5 text-primary" />
-                  <span className="text-muted-foreground">responsiblegaming@fanliteplay.com</span>
-                </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/contact">
+                  <Button variant="outline" className="border-teal-500 text-teal-600 hover:bg-teal-50">
+                    Contact Support <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+                <Link href="/faq">
+                  <Button variant="outline" className="border-teal-500 text-teal-600 hover:bg-teal-50">
+                    View FAQ <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact">
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                  Contact Us <ChevronRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
-              <Link href="/faq">
-                <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                  View FAQ
-                </Button>
-              </Link>
-            </div>
           </div>
         </section>
 
-        {/* Final Message */}
-        <section className="py-16 container">
-          <div className="max-w-3xl mx-auto">
-            <div className="bg-gradient-to-r from-primary/20 to-emerald-500/20 border border-primary/30 rounded-xl p-8 text-center">
-              <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-foreground mb-3">Play Smart, Play Safe</h3>
-              <p className="text-muted-foreground">
-                Fantasy cricket is meant to be fun and entertaining. By practicing responsible gaming habits, you can ensure that it remains a positive part of your life. Remember, it's just a game – enjoy it responsibly!
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Disclaimer */}
-        <section className="py-8 container">
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="text-sm text-muted-foreground">
-              <strong className="text-foreground">Disclaimer:</strong> This is a game of skill. Play responsibly. Fan Lite Play is intended for users 18 years and above residing in India.
+        {/* CTA Section */}
+        <section className="py-16 px-4 bg-gradient-to-r from-teal-500 to-emerald-500">
+          <div className="container max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Play Responsibly, Play Happy
+            </h2>
+            <p className="text-xl text-teal-100 mb-8">
+              Fantasy cricket is best enjoyed as a fun, skill-based game. Keep it that way!
             </p>
+            <Link href="/">
+              <Button className="bg-white text-teal-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
+                Start Playing <ChevronRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
           </div>
         </section>
       </main>
