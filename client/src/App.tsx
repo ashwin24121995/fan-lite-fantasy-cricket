@@ -24,7 +24,9 @@ import LiveScores from "./pages/LiveScores";
 import MatchContests from "./pages/MatchContests";
 
 // Informational Pages
+import Information from "./pages/Information";
 import About from "./pages/About";
+import AboutUs from "./pages/AboutUs";
 import HowToPlay from "./pages/HowToPlay";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
@@ -53,7 +55,8 @@ function Router() {
       <Route path="/leaderboard" component={Leaderboard} />
       
       {/* Informational Routes */}
-      <Route path="/about" component={About} />
+      <Route path="/information" component={Information} />
+      <Route path="/about" component={AboutUs} />
       <Route path="/how-to-play" component={HowToPlay} />
       <Route path="/faq" component={FAQ} />
       <Route path="/contact" component={Contact} />

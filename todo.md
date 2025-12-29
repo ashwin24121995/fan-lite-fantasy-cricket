@@ -231,3 +231,10 @@
 - [x] Add Information page link to Footer
 - [ ] Push to GitHub
 - [ ] Monitor Railway deployment
+
+
+## Bug Fix - Information Page 404
+- [x] Check if /information route is registered in App.tsx
+- [x] Add route if missing - Added Information and AboutUs imports and routes
+- [x] Test locally - Page loads correctly on dev server
+- [ ] Push to GitHub
