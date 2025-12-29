@@ -2,13 +2,27 @@
 
 import mysql from 'mysql2/promise';
 
-const DB_CONFIG = {
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'fantasy_cricket',
-  port: process.env.DB_PORT || 3306,
-};
+// Parse DATABASE_URL if available (Railway format: mysql://user:password@host:port/database)
+let DB_CONFIG;
+
+if (process.env.DATABASE_URL) {
+  const url = new URL(process.env.DATABASE_URL);
+  DB_CONFIG = {
+    host: url.hostname,
+    user: url.username,
+    password: url.password,
+    database: url.pathname.slice(1),
+    port: parseInt(url.port) || 3306,
+  };
+} else {
+  DB_CONFIG = {
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'fantasy_cricket',
+    port: process.env.DB_PORT || 3306,
+  };
+}
 
 const CONTESTS = [
   {
